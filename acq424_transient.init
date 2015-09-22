@@ -1,0 +1,12 @@
+COOKED=0 NSAMPLES=100000 NCHAN=32 TYPE=SHORT
+transient PRE=2000 POST=2000 OSAM=1 SOFT_TRIGGER=1
+
+set.site 1 clk 1,1,0
+set.site 1 clkdiv=16
+
+set.site 1 trg=1,1,1
+
+run0 1
+
+# Paste this line at the end of rc.user to setup motherboard clock
+#(sleep 5; caput $(hostname):0:SIG:CLK_MB:SET 16000000) &

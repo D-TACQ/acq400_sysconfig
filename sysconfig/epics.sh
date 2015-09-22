@@ -1,0 +1,3 @@
+
+export EPICS_CA_MAX_ARRAY_BYTES=500000
+

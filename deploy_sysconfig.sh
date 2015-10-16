@@ -8,6 +8,10 @@ echo $host
 scp -r sysconfig root@$host:/mnt/local/
 
 case $mezz in
+"acq420")
+  trans_file="acq420_transient.init"
+  echo $trans_file
+  ;;
 "acq425")
   trans_file="acq425_transient.init"
   echo $trans_file

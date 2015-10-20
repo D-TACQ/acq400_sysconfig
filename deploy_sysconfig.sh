@@ -23,10 +23,12 @@ case $mezz in
 "acq424")
   trans_file="acq424_transient.init"
   echo $trans_file
+  echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
   ;;
 "2xacq424")
   trans_file="2xacq424_transient.init"
   echo $trans_file
+  echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
   ;;
 "acq435")
   trans_file="acq435_transient.init"

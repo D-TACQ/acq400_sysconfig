@@ -30,6 +30,10 @@ case $mezz in
   echo $trans_file
   echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
   ;;
+"acq430")
+  trans_file="acq430_transient.init"
+  echo $trans_file
+  ;;
 "acq435")
   trans_file="acq435_transient.init"
   echo $trans_file

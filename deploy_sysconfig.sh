@@ -43,8 +43,14 @@ case $mezz in
   trans_file="acq435_transient.init"
   echo $trans_file
   ;;
+"bolo8")
+  trans_file="bolo8_transient.init"
+  echo $trans_file
+  ;;
 *)
-  echo "Invalid mezzanine specified!!!"
+  echo -e "\nInvalid mezzanine specified!!!\n"
+  echo -e "acq420\nacq425\n2xacq425\nacq424\n2xacq424\nacq430\nacq435\nbolo8\n" 
+  exit 0
   ;;
 esac
 

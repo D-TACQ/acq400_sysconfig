@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [[ $# -eq 0 ]] ; then
+    echo -e '\n Enter Carrier followed by Mezzanine\n e.g. acq1001_079 acq420\n'
+    exit 0
+fi
+
 host=$1
 mezz=$2
 

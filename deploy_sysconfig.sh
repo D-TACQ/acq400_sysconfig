@@ -43,6 +43,10 @@ case $mezz in
   trans_file="acq435_transient.init"
   echo $trans_file
   ;;
+"acq480")
+  trans_file="acq480_transient.init"
+  echo $trans_file
+  ;;
 "bolo8")
   trans_file="bolo8_transient.init"
   echo $trans_file

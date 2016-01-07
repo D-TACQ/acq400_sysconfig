@@ -1,0 +1,2 @@
+PEERS=1,2
+KNOBS=clkdiv,trg,event0,hi_res_mode

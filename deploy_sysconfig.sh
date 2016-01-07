@@ -59,6 +59,9 @@ case $mezz in
 esac
 
 scp $trans_file root@$host:/mnt/local/sysconfig/transient.init
+if [[ $trans_file =~ "acq43" ]]; then
+  scp ACQ43X_peers root@$host:/mnt/local/sysconfig/site-1-peers
+fi
 
 ###ssh root@$host /mnt/bin/update_release /tmp/$LATEST
 

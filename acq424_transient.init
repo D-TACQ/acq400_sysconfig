@@ -1,4 +1,4 @@
-COOKED=0 NSAMPLES=100000 NCHAN=32 TYPE=SHORT
+COOKED=0 NSAMPLES=100000 NCHAN=%NCHAN% TYPE=SHORT
 transient PRE=2000 POST=2000 OSAM=1 SOFT_TRIGGER=1
 
 set.site 1 clk 1,1,0
@@ -6,7 +6,7 @@ set.site 1 clkdiv=16
 
 set.site 1 trg=1,1,1
 
-run0 1
+run0 %SITELIST%
 
 # Paste this line at the end of rc.user to setup motherboard clock
 #(/usr/local/epics/scripts/wait_ioc_ready; sleep 1; set.site 0 SIG:CLK_MB:SET 16000000; set.site 1 clkdiv=16) &

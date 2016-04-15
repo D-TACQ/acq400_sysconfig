@@ -77,6 +77,7 @@ case $mezz in
      trans_file="acq480_transient.init"
   fi
   echo $trans_file
+  scp acq480_rc.user root@$host:/mnt/local/rc.user
   ;;
 "bolo8")
   trans_file="bolo8_transient.init"
@@ -106,4 +107,6 @@ fi
 sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 
 scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
+
+echo -e "\e[34m\nTo instantiate default rc.user, run 'install-auto-soft_trigger' on UUT\n"; tput sgr0
 

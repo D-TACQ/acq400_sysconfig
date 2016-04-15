@@ -1,0 +1,2 @@
+cp /usr/local/CARE/acq480_streamd.0.conf /etc/sysconfig/acq400_streamd.0.conf
+

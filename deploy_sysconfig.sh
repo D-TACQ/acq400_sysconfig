@@ -44,7 +44,11 @@ case $mezz in
   echo $trans_file
   ;;
 "acq480")
-  trans_file="acq480_transient.init"
+  if [[ $host =~ "acq1001" ]]; then
+     trans_file="acq480_1001_transient.init"
+  else
+     trans_file="acq480_transient.init"
+  fi
   echo $trans_file
   ;;
 "bolo8")

@@ -24,6 +24,7 @@ get_nchan() {
 		acq425) nc=16;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
+                acq437) nc=16;;
 		acq480) nc=8;;
 		bolo8)	nc=8;;
 		*)	echo ERROR: unknown module; exit 1;;
@@ -42,33 +43,33 @@ scp -r sysconfig root@$host:/mnt/local/
 case $mezz in
 "acq420")
   trans_file="acq420_transient.init"
-  echo $trans_file
   ;;
 "acq425")
   trans_file="acq425_transient.init"
-  echo $trans_file
   ;;
 "2xacq425")
   trans_file="2xacq425_transient.init"
-  echo $trans_file
   ;;
 "acq424")
-  trans_file="acq424_transient.init"
-  echo $trans_file
+  if [[ $host =~ "2106" ]]; then
+    trans_file="acq424_2106_transient.init"
+  else
+    trans_file="acq424_transient.init"
+  fi
   echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
   ;;
 "2xacq424")
   trans_file="2xacq424_transient.init"
-  echo $trans_file
   echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
   ;;
 "acq430")
   trans_file="acq430_transient.init"
-  echo $trans_file
   ;;
 "acq435")
   trans_file="acq435_transient.init"
-  echo $trans_file
+  ;;
+"acq437")
+  trans_file="acq437_transient.init"
   ;;
 "acq480")
   if [[ $host =~ "acq1001" ]]; then
@@ -76,12 +77,10 @@ case $mezz in
   else
      trans_file="acq480_transient.init"
   fi
-  echo $trans_file
   scp acq480_rc.user root@$host:/mnt/local/rc.user
   ;;
 "bolo8")
   trans_file="bolo8_transient.init"
-  echo $trans_file
   ;;
 *)
   echo -e "\nInvalid mezzanine specified!!!\n"
@@ -89,6 +88,8 @@ case $mezz in
   exit 0
   ;;
 esac
+
+echo $trans_file
 
 if [ ! -e ${MODNAME}_transient.init ]; then
 	echo ERROR ${MODNAME}_transient.init not found

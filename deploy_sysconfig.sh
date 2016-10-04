@@ -97,7 +97,8 @@ if [ ! -e ${MODNAME}_transient.init ]; then
 fi
 
 sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
-	${MODNAME}_transient.init >transient.init
+	$trans_file >transient.init
+#	${MODNAME}_transient.init >transient.init
 
 if [ -e ${MODNAME}-site-1-peers ]; then
 	PEERS=${MODNAME}-site-1-peers

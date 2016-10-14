@@ -1,0 +1,4 @@
+cp /usr/local/CARE/acq480_streamd.0.conf /etc/sysconfig/acq400_streamd.0.conf
+
+/usr/local/CARE/acq1001+acq480.init 50000000
+

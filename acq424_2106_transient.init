@@ -8,6 +8,5 @@ set.site 1 trg=1,1,1
 run0 %SITELIST%
 
 # Paste these lines at the end of rc.user to set up motherboard clock
-#(/usr/local/epics/scripts/wait_ioc_ready; sleep 1;
-#/usr/local/CARE/acq2106+acq424.init ) &
+#(/usr/local/CARE/acq2106+acq424.init ) &
 

@@ -72,7 +72,7 @@ case $mezz in
   trans_file="acq437_transient.init"
   ;;
 "acq480")
-     trans_file="acq480_1001_transient.init"
+     trans_file="acq480_transient.init"
   if [[ $host =~ "acq1001" ]]; then
      scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
   else

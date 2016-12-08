@@ -11,6 +11,7 @@ shift;shift
 sites="${*:-1}"
 SITELIST="$(echo $sites | tr \  ,)"
 sitecount=$(echo -n $sites | tr -d \  | wc -c)
+custom_flag=0
 
 
 get_nchan() {
@@ -53,6 +54,7 @@ case $mezz in
 "acq424")
   if [[ $host =~ "2106" ]]; then
     trans_file="acq424_2106_transient.init"
+    custom_flag=1
   else
     trans_file="acq424_transient.init"
   fi
@@ -109,6 +111,9 @@ fi
 sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 
 scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
+if [ custom_flag -eq 1 ]; then
+   scp acq424_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
+fi 
 
 echo -e "\e[34m\nTo instantiate default rc.user, run 'install-auto-soft_trigger' on UUT\n"; tput sgr0
 

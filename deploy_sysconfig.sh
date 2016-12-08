@@ -28,6 +28,7 @@ get_nchan() {
                 acq437) nc=16;;
 		acq480) nc=8;;
 		bolo8)	nc=8;;
+                dio432) nc=1;;
 		*)	echo ERROR: unknown module; exit 1;;
 		esac
 	fi
@@ -84,6 +85,10 @@ case $mezz in
 "bolo8")
   trans_file="bolo8_transient.init"
   ;;
+"dio432")
+  trans_file="dio432_transient.init"
+  scp dio432_rc.user root@$host:/mnt/local/rc.user
+  ;;
 *)
   echo -e "\nInvalid mezzanine specified!!!\n"
   echo -e "acq420\nacq425\n2xacq425\nacq424\n2xacq424\nacq430\nacq435\nbolo8\n" 
@@ -111,7 +116,7 @@ fi
 sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 
 scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
-if [ custom_flag -eq 1 ]; then
+if [ custom_flag == 1 ]; then
    scp acq424_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
 fi 
 

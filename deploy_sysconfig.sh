@@ -28,7 +28,7 @@ get_nchan() {
                 acq437) nc=16;;
 		acq480) nc=8;;
 		bolo8)	nc=8;;
-                dio432) nc=1;;
+                dio432) nc=2;;
 		*)	echo ERROR: unknown module; exit 1;;
 		esac
 	fi

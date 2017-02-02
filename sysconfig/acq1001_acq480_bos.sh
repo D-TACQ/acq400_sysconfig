@@ -1,0 +1,3 @@
+# NB not at the same time!
+PREMAX=40000000
+POSTMAX=40000000 

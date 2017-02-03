@@ -1,3 +1,3 @@
-echo -1 >/etc/acq400/0/OVERSAMPLING
+echo -256 > /etc/acq400/0/OVERSAMPLING
 export EPICS_CA_MAX_ARRAY_BYTES=500000
 

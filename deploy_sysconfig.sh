@@ -67,6 +67,8 @@ case $mezz in
   ;;
 "acq430")
   trans_file="acq430_transient.init"
+  scp acq430_epics.sh root@$host:/mnt/local/sysconfig/epics.sh
+  scp acq430_acq420_custom root@$host:/mnt/local/
   ;;
 "acq435")
   trans_file="acq435_transient.init"

@@ -80,7 +80,7 @@ case $mezz in
      trans_file="acq480_transient.init"
   if [[ $host =~ "acq1001" ]]; then
      scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
-     scp sysconfig/acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
+     scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
      scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
   else
      scp acq480_rc.user root@$host:/mnt/local/rc.user

@@ -120,7 +120,7 @@ fi
 sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 
 scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
-if [ custom_flag == 1 ]; then
+if [ $custom_flag == 1 ]; then
    scp acq424_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
 fi 
 

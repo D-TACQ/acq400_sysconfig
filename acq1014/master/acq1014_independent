@@ -1,0 +1,33 @@
+#!/bin/sh
+PRE=${PRE:-0}
+POST=${POST:-25000000}
+EDGE=${1:-rising}
+postlen=${1:-25000000}
+HN=$(hostname)
+
+PN=$(caget -t ${HN}:MIRROR_HOST)
+
+if [ $PRE -eq 0 ]; then
+	MODE=post
+else
+	MODE=prepost
+fi
+
+caput $HN:MIRROR_EN 1
+echo call acq1014_select_trg_src ext2 $MODE $EDGE
+acq1014_select_trg_src ext2 $MODE $EDGE
+#caput $HN:MIRROR_EN 0
+caput $HN:MODE:TRANSIENT:PRE $PRE
+caput $HN:MODE:TRANSIENT:POST $POST
+caput $HN:MODE:TRANSIENT 1
+
+
+caput $PN:MODE:TRANSIENT:PRE $POST
+caput $PN:MODE:TRANSIENT:POST $PRE
+caput $PN:MODE:TRANSIENT 1
+
+#echo paste the next two lines to run
+caput $PN:MODE:TRANSIENT:SET_ARM 1
+caput $HN:MODE:TRANSIENT:SET_ARM 1
+
+

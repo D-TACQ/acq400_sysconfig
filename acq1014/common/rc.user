@@ -1,0 +1,9 @@
+/usr/local/bin/acq1014+acq480.init 50000000
+
+(
+/usr/local/epics/scripts/wait_ioc_ready;sleep 3
+acq1014_select_trg_src int
+)&
+
+set.fanspeed 100
+

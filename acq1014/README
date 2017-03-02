@@ -1,0 +1,10 @@
+Instructions to configure 1001s as 1014 system
+
+
+Install custom 1014 package on both master and slave 1001s
+
+Copy FPGA from /mnt/fpga.d/ up to /mnt on both boxes
+
+Copy common files from ./common to /mnt/local
+
+Copy slave specific files to /mnt/local and /mnt/local/sysconfig respectively

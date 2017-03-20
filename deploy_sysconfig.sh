@@ -79,7 +79,13 @@ case $mezz in
 "acq480")
      trans_file="acq480_transient.init"
   if [[ $host =~ "acq1001" ]]; then
-     scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
+     ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
+     if [ $? -eq 0 ]; then
+	echo +++ acq1014 found
+	scp acq480_1014_rc.user root@$host:/mnt/local/rc.user
+     else
+        scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
+     fi
      scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
      scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
   else

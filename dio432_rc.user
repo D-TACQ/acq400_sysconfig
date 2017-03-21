@@ -1,4 +1,3 @@
-acq1001_119> cat rc.user 
 cp /usr/local/CARE/acq400_streamd.0.conf-soft_trigger /etc/sysconfig/acq400_streamd.0.conf
 
 (/usr/local/epics/scripts/wait_ioc_ready; sleep 1;

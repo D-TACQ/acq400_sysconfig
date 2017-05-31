@@ -1,0 +1,9 @@
+COOKED=0 NSAMPLES=100000 NCHAN=%NCHAN% TYPE=LONG
+transient PRE=2000 POST=2000 OSAM=1 SOFT_TRIGGER=1
+
+set.site 1 trg=1,1,1
+set.site 1 bank_mask AB
+
+run0 %SITELIST%
+make-ch-server
+

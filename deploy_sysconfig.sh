@@ -72,7 +72,7 @@ case $mezz in
   scp acq430_acq420_custom root@$host:/mnt/local/acq420_custom
   ;;
 acq435|acq435-16)
-  trans_file="acq435_transient.init"
+  trans_file="acq435-16_transient.init"
   ;;
 "acq437")
   trans_file="acq437_transient.init"

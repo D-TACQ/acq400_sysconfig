@@ -25,6 +25,7 @@ get_nchan() {
 		acq425) nc=16;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
+		acq435-16) nc=32;;
                 acq437) nc=16;;
 		acq480) nc=8;;
 		bolo8)	nc=8;;
@@ -70,7 +71,7 @@ case $mezz in
   scp acq430_epics.sh root@$host:/mnt/local/sysconfig/epics.sh
   scp acq430_acq420_custom root@$host:/mnt/local/acq420_custom
   ;;
-"acq435")
+acq435|acq435-16)
   trans_file="acq435_transient.init"
   ;;
 "acq437")

@@ -49,6 +49,7 @@ case $mezz in
   ;;
 "acq425")
   trans_file="acq425_transient.init"
+  custom_flag=1
   ;;
 "2xacq425")
   trans_file="2xacq425_transient.init"
@@ -128,7 +129,7 @@ sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 
 scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
 if [ $custom_flag == 1 ]; then
-   scp acq424_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
+   scp acq42X_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
 fi 
 
 echo -e "\e[34m\nTo instantiate default rc.user, run 'install-auto-soft_trigger' on UUT\n"; tput sgr0

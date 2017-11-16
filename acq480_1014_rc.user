@@ -1,2 +1,3 @@
 /usr/local/CARE/acq1014+acq480.init 50000000
+watchdog /dev/watchdog0
 

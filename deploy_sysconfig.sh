@@ -6,6 +6,8 @@ if [[ $# -lt 2 ]] ; then
 fi
 
 host=$1
+# For use in 1014 systems
+host2=${host: -3};host2=$((host2+1));host2=(${host: 0:8}$host2)
 mezz=$2
 shift;shift
 sites="${*:-1}"
@@ -87,13 +89,21 @@ case $mezz in
      ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
      if [ $? -eq 0 ]; then
 	echo +++ acq1014 found
+	echo Copying config files to both $host and $host2
+	sed -e "s/%MAST_HOST%/$host2/g" acq1014_epics_mirror_def > acq1014_epics_mirror
 	scp acq480_1014_rc.user root@$host:/mnt/local/rc.user
+	scp acq480_1014_rc.user root@$host2:/mnt/local/rc.user
+	scp acq1014_epics_mirror root@$host:/mnt/local/sysconfig/epics.sh
+	scp acq1014_epics_mirror_slave root@$host2:/mnt/local/sysconfig/epics.sh
+    	scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
+     	scp acq1001_acq480_bos.sh root@$host2:/mnt/local/sysconfig/bos.sh
+     	scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
+     	scp acq1001_acq480_acq420_custom root@$host2:/mnt/local/acq420_custom
      else
         scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
+    	scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
+     	scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
      fi
-     scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
-     scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
-  else
      scp acq480_rc.user root@$host:/mnt/local/rc.user
   fi
   ;;

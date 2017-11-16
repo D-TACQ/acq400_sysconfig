@@ -104,6 +104,7 @@ case $mezz in
     	scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
      	scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
      fi
+  else	
      scp acq480_rc.user root@$host:/mnt/local/rc.user
   fi
   ;;

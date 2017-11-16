@@ -89,7 +89,7 @@ case $mezz in
      ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
      if [ $? -eq 0 ]; then
 	echo +++ acq1014 found
-	echo Copying config files to both $host and $host2
+	echo -e "\e[34mCopying config files to both $host and $host2"; tput sgr0
 	sed -e "s/%MAST_HOST%/$host2/g" acq1014_epics_mirror_def > acq1014_epics_mirror
 	scp acq480_1014_rc.user root@$host:/mnt/local/rc.user
 	scp acq480_1014_rc.user root@$host2:/mnt/local/rc.user

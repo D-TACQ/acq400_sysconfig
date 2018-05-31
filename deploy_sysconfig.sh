@@ -7,7 +7,7 @@ fi
 
 host=$1
 # For use in 1014 systems
-host2=${host: -3};host2=$((host2+1));host2=(${host: 0:8}$host2)
+#host2=${host: -3};host2=$((host2+1));host2=(${host: 0:8}$host2)
 mezz=$2
 shift;shift
 sites="${*:-1}"
@@ -24,6 +24,7 @@ get_nchan() {
 		case $mz in 
 		acq420) nc=4;;
 		acq424) nc=32;;
+		acq423) nc=32;;
 		acq425) nc=16;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
@@ -47,14 +48,14 @@ scp -r sysconfig root@$host:/mnt/local/
 
 case $mezz in
 "acq420")
-  trans_file="acq420_transient.init"
+  trans_file="acq42X_transient.init"
+  ;;
+"acq423")
+  trans_file="acq42X_transient.init"
   ;;
 "acq425")
-  trans_file="acq425_transient.init"
+  trans_file="acq42X_transient.init"
   custom_flag=1
-  ;;
-"2xacq425")
-  trans_file="2xacq425_transient.init"
   ;;
 "acq424")
   if [[ $host =~ "2106" ]]; then
@@ -63,10 +64,6 @@ case $mezz in
   else
     trans_file="acq424_transient.init"
   fi
-  echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
-  ;;
-"2xacq424")
-  trans_file="2xacq424_transient.init"
   echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
   ;;
 "acq430")
@@ -123,10 +120,10 @@ case $mezz in
 esac
 
 echo $trans_file
-
+echo $MODNAME
 if [ ! -e ${MODNAME}_transient.init ]; then
 	echo ERROR ${MODNAME}_transient.init not found
-	exit 1
+	#exit 1
 fi
 
 sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \

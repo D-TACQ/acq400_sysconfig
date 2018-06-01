@@ -26,6 +26,7 @@ get_nchan() {
 		acq424) nc=32;;
 		acq423) nc=32;;
 		acq425) nc=16;;
+		acq425-18) nc=16;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
 		acq435-16) nc=32;;
@@ -55,6 +56,10 @@ case $mezz in
   ;;
 "acq425")
   trans_file="acq42X_transient.init"
+  custom_flag=1
+  ;;
+"acq425-18")
+  trans_file="acq43X_transient.init"
   custom_flag=1
   ;;
 "acq424")

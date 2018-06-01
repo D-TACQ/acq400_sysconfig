@@ -67,18 +67,18 @@ case $mezz in
   echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
   ;;
 "acq430")
-  trans_file="acq430_transient.init"
+  trans_file="acq43X_transient.init"
   scp acq430_epics.sh root@$host:/mnt/local/sysconfig/epics.sh
   scp acq430_acq420_custom root@$host:/mnt/local/acq420_custom
   ;;
 "acq435")
-  trans_file="acq435_transient.init"
+  trans_file="acq43X_transient.init"
   ;;
 "acq435-16")
   trans_file="acq435-16_transient.init"
   ;; 
 "acq437")
-  trans_file="acq437_transient.init"
+  trans_file="acq43X_transient.init"
   ;;
 "acq480")
      trans_file="acq480_transient.init"

@@ -127,7 +127,7 @@ esac
 echo $trans_file
 echo $MODNAME
 if [ ! -e ${MODNAME}_transient.init ]; then
-	echo ERROR ${MODNAME}_transient.init not found
+	echo Warning : ${MODNAME}_transient.init not found
 	#exit 1
 fi
 

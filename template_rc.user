@@ -1,0 +1,4 @@
+# DEFAULT init for %MEZZ%, %STR_SR% Hz, auto soft trigger
+/usr/local/CARE/acq%CARRIER%\+%ACQSUB%.init %SETPOINT% %DIV%
+# Alternate FPCLK
+#/usr/local/CARE/acq%CARRIER%\+%ACQSUB%.init fpclk 1000000 %SETPOINT% %DIV%

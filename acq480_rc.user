@@ -1,8 +1,1 @@
-cp /usr/local/CARE/acq480_streamd.0.conf /etc/sysconfig/acq400_streamd.0.conf
-
-(
-/usr/local/epics/scripts/wait_ioc_ready; sleep 1
-#/usr/local/CARE/acq480_init_clk 50M
-#/usr/local/CARE/acq480_init_clk 20M
-/usr/local/CARE/acq480_init_clk 10M
-) &
+/usr/local/CARE/acq480_init_clk 50M

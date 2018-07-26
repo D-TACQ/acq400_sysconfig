@@ -6,6 +6,8 @@ if [[ $# -lt 2 ]] ; then
 fi
 
 host=$1
+carr=${host:3:4}
+echo $carr
 # For use in 1014 systems
 #host2=${host: -3};host2=$((host2+1));host2=(${host: 0:8}$host2)
 mezz=$2
@@ -14,6 +16,12 @@ sites="${*:-1}"
 SITELIST="$(echo $sites | tr \  ,)"
 sitecount=$(echo -n $sites | tr -d \  | wc -c)
 custom_flag=0
+if [[ $host =~ "kmcu" ]]; then
+	custom_rc=1
+else
+	custom_rc=0
+fi
+debug=0
 
 
 get_nchan() {
@@ -41,21 +49,47 @@ get_nchan() {
 	echo $nc	 
 }
 
+get_sr() {
+	mz=$1
+	case $mz in
+	acq420|acq425|acq427-8)
+		ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
+     		if [ $? -eq 0 ]; then
+			sr=2000000
+		else
+			sr=1000000
+		fi
+	;;
+	acq423)
+		sr=200000
+	;;
+	acq424)
+		sr=1000000
+	;;
+	acq435|acq437)
+		sr=43500
+	;;
+	*)
+		exit 0
+	;;
+	esac
+	echo $sr
+}
+
 MODNAME=${mezz%-*}
 nchan=$(get_nchan $mezz)
+samp_rate=$(get_sr $mezz)
+echo $samp_rate
 let NCHAN=$nchan*$sitecount
 echo $host $mezz $sites SITELIST:$SITELIST sitecount:$sitecount NCHAN $NCHAN
 
-scp -r sysconfig root@$host:/mnt/local/
+if [ $debug == 0 ]; then scp -r sysconfig root@$host:/mnt/local/;fi
 
 case $mezz in
-"acq420")
+"acq420"|"acq423"|"acq427-8")
   trans_file="acq42X_transient.init"
   ;;
-"acq423")
-  trans_file="acq42X_transient.init"
-  ;;
-"acq425")
+"acq425"|"acq424")
   trans_file="acq42X_transient.init"
   custom_flag=1
   ;;
@@ -63,34 +97,20 @@ case $mezz in
   trans_file="acq43X_transient.init"
   custom_flag=1
   ;;
-"acq427-8")
-  trans_file="acq42X_transient.init"
-  ;;
-"acq424")
-  if [[ $host =~ "2106" ]]; then
-    trans_file="acq424_2106_transient.init"
-    custom_flag=1
-  else
-    trans_file="acq424_transient.init"
-  fi
-  echo -e "\e[34mN.B. Clock setup in transient file!"; tput sgr0
-  ;;
 "acq430")
   trans_file="acq43X_transient.init"
   scp acq430_epics.sh root@$host:/mnt/local/sysconfig/epics.sh
   scp acq430_acq420_custom root@$host:/mnt/local/acq420_custom
   ;;
-"acq435")
+"acq435"|"acq437")
   trans_file="acq43X_transient.init"
   ;;
 "acq435-16")
   trans_file="acq435-16_transient.init"
   ;; 
-"acq437")
-  trans_file="acq43X_transient.init"
-  ;;
 "acq480")
      trans_file="acq480_transient.init"
+     custom_rc=1
   if [[ $host =~ "acq1001" ]]; then
      ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
      if [ $? -eq 0 ]; then
@@ -118,7 +138,8 @@ case $mezz in
   trans_file="bolo8_transient.init"
   ;;
 "dio432")
-  trans_file="dio432_transient.init"
+  trans_file="acq43X_transient.init"
+  custom_rc=1
   scp dio432_rc.user root@$host:/mnt/local/rc.user
   ;;
 *)
@@ -135,22 +156,63 @@ if [ ! -e ${MODNAME}_transient.init ]; then
 	#exit 1
 fi
 
-sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
-	$trans_file >transient.init
-#	${MODNAME}_transient.init >transient.init
-
+###
+# If there is a custom peers file for a module copy it, otherwise copy default
+###
 if [ -e ${MODNAME}-site-1-peers ]; then
 	PEERS=${MODNAME}-site-1-peers
 else
 	PEERS=default-site-1-peers
 fi
 
+###
+# Sed into the transient (and peers) files and insert CH count and run0 incantation
+###
+sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
+	$trans_file >transient.init
 sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 
-scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
-if [ $custom_flag == 1 ]; then
-   scp acq42X_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
-fi 
+###
+# Sed into the template rc.user file to generate board specific clocking
+###
+if [ $custom_rc == 0 ]; then
+	if [[ $mezz =~ "acq43" ]]; then
+		acq_sub="acq43x"
+	elif [[ $mezz =~ "acq42" ]]; then
+		acq_sub="acq42x"
+		setp=16000000
+		if [ $samp_rate == 200000 ]; then
+			div=80
+		elif [ $samp_rate == 1000000 ]; then
+			div=16
+		else
+			div=8
+		fi
+		echo $setp_sub
+		echo $div_sub
+	elif [[ $mezz =~ "acq48" ]]; then
+		acq_sub="acq480"
+	fi
+	echo $acq_sub
+	if [ $carr == "2106" ]; then
+		div=""
+		setp=$samp_rate
+	fi
+	sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
+		-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" -e "s/%DIV%/$div/g" \
+		template_rc.user > rc.user
+fi
 
-echo -e "\e[34m\nTo instantiate default rc.user, run 'install-auto-soft_trigger' on UUT\n"; tput sgr0
 
+###
+# Copy files to UUT 
+###
+if [ $debug == 0 ] ; then
+	scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
+	if [ $custom_flag == 1 ]; then # Custom AXI buffers length
+	   scp acq42X_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
+	fi 
+	if [ $custom_rc == 0 ]; then
+	   scp rc.user root@$host:/mnt/local/rc.user
+	fi
+fi

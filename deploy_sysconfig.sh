@@ -178,6 +178,7 @@ sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 if [ $custom_rc == 0 ]; then
 	if [[ $mezz =~ "acq43" ]]; then
 		acq_sub="acq43x"
+		setp=$samp_rate
 	elif [[ $mezz =~ "acq42" ]]; then
 		acq_sub="acq42x"
 		setp=16000000

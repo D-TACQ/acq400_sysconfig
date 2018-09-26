@@ -1,1 +1,6 @@
-/usr/local/CARE/acq480_init_clk 50M
+# DEFAULT init for acq48x, 10,000,000 Hz, auto soft trigger
+/usr/local/CARE/acq2106\+acq48x.init 10M
+# Local clock and soft trigger
+set.site 0 sync_role master 10000000
+# Alternate FPCLK and FPTRG.
+#set.site 0 sync_role fpmaster 10000000 1000000

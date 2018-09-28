@@ -182,25 +182,16 @@ if [ $custom_rc == 0 ]; then
 	elif [[ $mezz =~ "acq42" ]]; then
 		acq_sub="acq42x"
 		setp=16000000
-		if [ $samp_rate == 200000 ]; then
-			div=80
-		elif [ $samp_rate == 1000000 ]; then
-			div=16
-		else
-			div=8
-		fi
 		echo $setp_sub
-		echo $div_sub
 	elif [[ $mezz =~ "acq48" ]]; then
 		acq_sub="acq480"
 	fi
 	echo $acq_sub
 	if [ $carr == "2106" ]; then
-		div=""
 		setp=$samp_rate
 	fi
 	sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
-		-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" -e "s/%DIV%/$div/g" \
+		-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
 		template_rc.user > rc.user
 fi
 

@@ -1,4 +1,12 @@
+(
+/usr/local/epics/scripts/wait_ioc_ready
+
 # DEFAULT init for %MEZZ%, %STR_SR% Hz, auto soft trigger
-/usr/local/CARE/acq%CARRIER%\+%ACQSUB%.init %SETPOINT% %DIV%
-# Alternate FPCLK
-#/usr/local/CARE/acq%CARRIER%\+%ACQSUB%.init fpclk 1000000 %SETPOINT% %DIV%
+/usr/local/CARE/acq%CARRIER%\+%ACQSUB%.init
+# Local clock and soft trigger
+set.site 0 sync_role master %SETPOINT%
+# Alternate front panel clock and front panel trigger
+#set.site 0 sync_role fpmaster %SETPOINT% 1000000
+
+# For other combinations try 'set.site 0 sync_role help'
+) &

@@ -1,6 +1,3 @@
-(
-/usr/local/epics/scripts/wait_ioc_ready
-
 # DEFAULT init for %MEZZ%, %STR_SR% Hz, auto soft trigger
 /usr/local/CARE/acq%CARRIER%\+%ACQSUB%.init
 # Local clock and soft trigger
@@ -9,4 +6,3 @@ set.site 0 sync_role master %SETPOINT%
 #set.site 0 sync_role fpmaster %SETPOINT% 1000000
 
 # For other combinations try 'set.site 0 sync_role help'
-) &

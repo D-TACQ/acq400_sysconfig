@@ -181,7 +181,11 @@ if [ $custom_rc == 0 ]; then
 		setp=$samp_rate
 	elif [[ $mezz =~ "acq42" ]]; then
 		acq_sub="acq42x"
-		setp=16000000
+		if [[ $mezz =~ "acq423" ]]; then
+			setp=200000
+		else
+			setp=1000000
+		fi	
 		echo $setp_sub
 	elif [[ $mezz =~ "acq48" ]]; then
 		acq_sub="acq480"

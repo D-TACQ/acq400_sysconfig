@@ -35,7 +35,7 @@ get_nchan() {
 		acq423) nc=32;;
 		acq425) nc=16;;
 		acq425-18) nc=16;;
-		acq427-8) nc=8;;
+		acq427) nc=8;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
 		acq435-16) nc=32;;
@@ -52,7 +52,7 @@ get_nchan() {
 get_sr() {
 	mz=$1
 	case $mz in
-	acq420|acq425|acq427-8)
+	acq420|acq425|acq427)
 		ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
      		if [ $? -eq 0 ]; then
 			sr=2000000
@@ -86,7 +86,7 @@ echo $host $mezz $sites SITELIST:$SITELIST sitecount:$sitecount NCHAN $NCHAN
 if [ $debug == 0 ]; then scp -r sysconfig root@$host:/mnt/local/;fi
 
 case $mezz in
-"acq420"|"acq423"|"acq427-8")
+"acq420"|"acq423"|"acq427")
   trans_file="acq42X_transient.init"
   ;;
 "acq425"|"acq424")

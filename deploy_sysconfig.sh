@@ -28,8 +28,8 @@ get_nchan() {
 	mz=$1
 	nc=${mz#*-}
 	if [ $mz == $nc ]; then
-		
-		case $mz in 
+
+		case $mz in
 		acq420) nc=4;;
 		acq424) nc=32;;
 		acq423) nc=32;;
@@ -46,7 +46,7 @@ get_nchan() {
 		*)	echo ERROR: unknown module; exit 1;;
 		esac
 	fi
-	echo $nc	 
+	echo $nc
 }
 
 get_sr() {
@@ -107,32 +107,34 @@ case $mezz in
   ;;
 "acq435-16")
   trans_file="acq435-16_transient.init"
-  ;; 
+  ;;
 "acq480")
      trans_file="acq480_transient.init"
      custom_rc=1
-  if [[ $host =~ "acq1001" ]]; then
-     ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
-     if [ $? -eq 0 ]; then
-	echo +++ acq1014 found
-	echo -e "\e[34mCopying config files to both $host and $host2"; tput sgr0
-	sed -e "s/%MAST_HOST%/$host2/g" acq1014_epics_mirror_def > acq1014_epics_mirror
-	scp acq480_1014_rc.user root@$host:/mnt/local/rc.user
-	scp acq480_1014_rc.user root@$host2:/mnt/local/rc.user
-	scp acq1014_epics_mirror root@$host:/mnt/local/sysconfig/epics.sh
-	scp acq1014_epics_mirror_slave root@$host2:/mnt/local/sysconfig/epics.sh
-    	scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
-     	scp acq1001_acq480_bos.sh root@$host2:/mnt/local/sysconfig/bos.sh
-     	scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
-     	scp acq1001_acq480_acq420_custom root@$host2:/mnt/local/acq420_custom
-     else
-        scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
-    	scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
-     	scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
+     if [ $debug == 0 ] ; then
+          if [[ $host =~ "acq1001" ]]; then
+               ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
+               if [ $? -eq 0 ]; then
+                    echo +++ acq1014 found
+                    echo -e "\e[34mCopying config files to both $host and $host2"; tput sgr0
+                    sed -e "s/%MAST_HOST%/$host2/g" acq1014_epics_mirror_def > acq1014_epics_mirror
+                    scp acq480_1014_rc.user root@$host:/mnt/local/rc.user
+                    scp acq480_1014_rc.user root@$host2:/mnt/local/rc.user
+                    scp acq1014_epics_mirror root@$host:/mnt/local/sysconfig/epics.sh
+                    scp acq1014_epics_mirror_slave root@$host2:/mnt/local/sysconfig/epics.sh
+                    scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
+                    scp acq1001_acq480_bos.sh root@$host2:/mnt/local/sysconfig/bos.sh
+                    scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
+                    scp acq1001_acq480_acq420_custom root@$host2:/mnt/local/acq420_custom
+               else
+                    scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
+                    scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
+                    scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
+               fi
+          else
+               scp acq480_rc.user root@$host:/mnt/local/rc.user
+          fi
      fi
-  else	
-     scp acq480_rc.user root@$host:/mnt/local/rc.user
-  fi
   ;;
 "bolo8")
   trans_file="bolo8_transient.init"
@@ -144,7 +146,7 @@ case $mezz in
   ;;
 *)
   echo -e "\nInvalid mezzanine specified!!!\n"
-  echo -e "acq420\nacq425\n2xacq425\nacq424\n2xacq424\nacq430\nacq435\nbolo8\n" 
+  echo -e "acq420\nacq425\n2xacq425\nacq424\n2xacq424\nacq430\nacq435\nbolo8\n"
   exit 0
   ;;
 esac
@@ -185,7 +187,7 @@ if [ $custom_rc == 0 ]; then
 			setp=200000
 		else
 			setp=1000000
-		fi	
+		fi
 		echo $setp_sub
 	elif [[ $mezz =~ "acq48" ]]; then
 		acq_sub="acq480"
@@ -201,13 +203,13 @@ fi
 
 
 ###
-# Copy files to UUT 
+# Copy files to UUT
 ###
 if [ $debug == 0 ] ; then
 	scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
 	if [ $custom_flag == 1 ]; then # Custom AXI buffers length
 	   scp acq42X_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
-	fi 
+	fi
 	if [ $custom_rc == 0 ]; then
 	   scp rc.user root@$host:/mnt/local/rc.user
 	fi

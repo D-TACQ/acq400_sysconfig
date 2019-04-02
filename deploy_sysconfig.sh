@@ -206,6 +206,9 @@ fi
 # Copy files to UUT
 ###
 if [ $debug == 0 ] ; then
+	if [[ $(ssh root@acq1001_349 'if [ ! -d /mnt/local/cal ]; then echo 1;fi') = "1" ]]; then # If cal does not exist
+		scp -r cal root@$host:/mnt/local/
+	fi
 	scp transient.init site-1-peers root@$host:/mnt/local/sysconfig
 	if [ $custom_flag == 1 ]; then # Custom AXI buffers length
 	   scp acq42X_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh

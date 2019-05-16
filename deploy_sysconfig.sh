@@ -69,6 +69,9 @@ get_sr() {
 	acq430|acq435|acq437)
 		sr=43500
 	;;
+	acq480|acq482)
+		sr=10000000
+	;;
 	*)
 		exit 0
 	;;
@@ -110,7 +113,7 @@ case $mezz in
   ;;
 "acq480")
      trans_file="acq480_transient.init"
-     custom_rc=1
+     custom_rc=0
      if [ $debug == 0 ] ; then
           if [[ $host =~ "acq1001" ]]; then
                ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
@@ -127,7 +130,8 @@ case $mezz in
                     scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
                     scp acq1001_acq480_acq420_custom root@$host2:/mnt/local/acq420_custom
                else
-                    scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
+                    #scp acq480_1001_rc.user root@$host:/mnt/local/rc.user
+                    scp acq480_rc.user root@$host:/mnt/local/rc.user
                     scp acq1001_acq480_bos.sh root@$host:/mnt/local/sysconfig/bos.sh
                     scp acq1001_acq480_acq420_custom root@$host:/mnt/local/acq420_custom
                fi
@@ -143,6 +147,7 @@ case $mezz in
   trans_file="acq43X_transient.init"
   custom_rc=1
   scp dio432_rc.user root@$host:/mnt/local/rc.user
+  scp DO_acq420_custom root@$host:/mnt/local/acq420_custom
   ;;
 *)
   echo -e "\nInvalid mezzanine specified!!!\n"
@@ -191,6 +196,7 @@ if [ $custom_rc == 0 ]; then
 		echo $setp_sub
 	elif [[ $mezz =~ "acq48" ]]; then
 		acq_sub="acq480"
+		setp=$samp_rate
 	fi
 	echo $acq_sub
 	if [ $carr == "2106" ]; then

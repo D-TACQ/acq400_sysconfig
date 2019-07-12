@@ -218,19 +218,24 @@ fi
 staging=STAGING
 [ -e STAGING2 ] && staging="$staging STAGING2"
 
+mkdir -p ARCHIVE
 uut=$host
 for st in $staging; do
-        sed -ie "2i# created by deploy_sysconfig uut:$uut mezz:$mezz\n# ${USER}@$(hostname) $(date)\n" $st/mnt/local/rc.user
+        sed -i -e "2i# created by deploy_sysconfig uut:$uut mezz:$mezz\n# ${USER}@$(hostname) $(date)\n" $st/mnt/local/rc.user
 	cp transient.init site-1-peers $st/mnt/local/sysconfig
+	tar cvf ARCHIVE/$uut.tar -C $st .
+	echo "INFO ARCHIVE/$uut.tar created"
 	uut=$host2
 done
+
 
 ###
 # Copy files to UUT
 ###
 if [ $debug == 0 ]; then
-	scp -r STAGING/mnt/* root@$host:/mnt/
-	[ "x$host2" != "x" ] && scp -r STAGING2/mnt/* root@$host2:/mnt/
+	cat ARCHIVE/$host.tar | ssh root@$host 'tar xvf - -C /'
+	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
 else
 	echo debug mode no deploy. Look in ./STAGING for details
 fi
+

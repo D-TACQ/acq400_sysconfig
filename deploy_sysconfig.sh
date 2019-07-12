@@ -196,18 +196,16 @@ if [ ! -e STAGING/mnt/local/rc.user ]; then
 		setp=$samp_rate
 	elif [[ $mezz =~ "acq42" ]]; then
 		acq_sub="acq42x"
-		if [[ $mezz =~ "acq423" ]]; then
-			setp=200000
-		else
-			setp=1000000
-		fi
-		echo $setp_sub
+		setp=$samp_rate
 	elif [[ $mezz =~ "acq48" ]]; then
 		acq_sub="acq480"
 		setp=$samp_rate
 	fi
 	if [ $carr == "2106" ]; then
 		setp=$samp_rate
+	fi
+	if [ -z $setp ]; then
+		echo "DEBUG HELPME setp not set"
 	fi
 	echo "DEBUG acq_sub $acq_sub setp $setp"
 	sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \

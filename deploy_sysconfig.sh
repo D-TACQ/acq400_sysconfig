@@ -221,7 +221,7 @@ staging=STAGING
 mkdir -p ARCHIVE
 uut=$host
 for st in $staging; do
-        sed -i -e "2i# created by deploy_sysconfig uut:$uut mezz:$mezz\n# ${USER}@$(hostname) $(date)\n" $st/mnt/local/rc.user
+        sed -i -e "2i#\n# created by deploy_sysconfig for uut:$uut mezz:$mezz\n# by ${USER}@$(hostname) on $(date)\n" $st/mnt/local/rc.user
 	cp transient.init site-1-peers $st/mnt/local/sysconfig
 	tar cvf ARCHIVE/$uut.tar -C $st .
 	echo "INFO ARCHIVE/$uut.tar created"

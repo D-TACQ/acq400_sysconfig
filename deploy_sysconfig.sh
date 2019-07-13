@@ -16,7 +16,7 @@ debug=${DRYRUN:-0}
 
 ACQ1014=${ACQ1014:-0}
 
-if [ $debug -ne 0 ]; then
+if [ $debug == 0 ]; then
 	ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
         if [ $? -eq 0 ]; then
 		echo "ACQ1014 auto-detected"

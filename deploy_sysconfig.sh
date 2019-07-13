@@ -89,7 +89,7 @@ get_sr() {
 		sr=10000000
 	;;
 	*)
-		exit 0
+		echo "WARNING: get_sr() mz $mz not specified return default $sr"
 	;;
 	esac
 	echo $sr

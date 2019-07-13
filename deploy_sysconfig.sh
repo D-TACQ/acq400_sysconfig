@@ -71,20 +71,16 @@ get_nchan() {
 
 get_sr() {
 	mz=$1
+	sr=1000000
 	case $mz in
 	acq420|acq425|acq427)
 		ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
-     		if [ $? -eq 0 ]; then
-			sr=2000000
-		else
-			sr=1000000
-		fi
+     		[ $? -eq 0 ] && sr=2000000
 	;;
 	acq423)
 		sr=200000
 	;;
 	acq424)
-		sr=1000000
 	;;
 	acq430|acq435|acq437)
 		sr=43500

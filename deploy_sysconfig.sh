@@ -106,11 +106,11 @@ case $mezz in
   ;;
 "acq425"|"acq424")
   trans_file="acq42X_transient.init"
-  [ $sitecount -gt 2 ] && cp acq42X_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
+  [ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
   ;;
 "acq425-18")
   trans_file="acq43X_transient.init"
-  [ $sitecount -gt 2 ] && cp acq42X_AXI_DMA_BUFFERS root@$host:/mnt/local/sysconfig/acq400.sh
+  [ $sitecount -gt 2 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
   ;;
 "acq430")
   trans_file="acq43X_transient.init"
@@ -126,6 +126,7 @@ case $mezz in
 "acq480")
 	trans_file="acq480_transient.init"
        	cp acq480_rc.user STAGING/mnt/local/rc.user
+	cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
 	if [[ $host =~ "acq1001" ]]; then
 		cp acq1001_acq480_bos.sh STAGING/mnt/local/sysconfig/bos.sh
 		cp acq1001_acq480_acq420_custom STAGING/mnt/local/acq420_custom

@@ -131,10 +131,11 @@ case $mezz in
 		cp acq1001_acq480_acq420_custom STAGING/mnt/local/acq420_custom
 		if [ $ACQ1014 == 1 ]; then
                 	echo +++ acq1014 found
-            		cp acq480_1014_rc.user ${st}/mnt/local/rc.user
+            		cp acq480_1014_rc.user STAGING/mnt/local/rc.user
 			mkdir STAGING2
-			cp -r STAGING/ STAGING2
-			sed -e "s/%MAST_HOST%/$host2/g" acq1014_epics_mirror_def > STAGING/mnt/local/sysconfig/epics.sh
+			cp -r STAGING/* STAGING2
+			# mirror on MASTER only
+			sed -e "s/%MIRROR_HOST%/$host2/g" acq1014_epics_mirror_def > STAGING/mnt/local/sysconfig/epics.sh
 		fi
         fi
   ;;

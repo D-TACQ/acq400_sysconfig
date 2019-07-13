@@ -1,9 +1,11 @@
 #!/bin/sh
 
 if [[ $# -lt 2 ]] ; then
-    echo -e '\n Enter Carrier followed by Mezzanine\n e.g. acq1001_079 acq420 [site1 site2 siteN]\n'
-    echo -e '\n FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1\n'
-    echo -e '\n FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING\n'
+    echo "Enter Carrier followed by Mezzanine"
+    echo " 	e.g. acq1001_079 acq420 [site1 site2 siteN]"
+    echo "FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING"
+    echo "FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1"
+    echo "... nb if NOT DRYRUN, ACQ1014 will autodetect"
     exit 0
 fi
 

@@ -173,8 +173,10 @@ fi
 # Sed into the transient (and peers) files and insert CH count and run0 incantation
 ###
 sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
-	$trans_file >transient.init
-sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
+	$trans_file >STAGING/mnt/local/sysconfig/transient.init
+[ -e STAGING2 ] && cp STAGING/mnt/local/sysconfig/transient.init STAGING2/mnt/local/sysconfig/transient.init
+
+sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >STAGING/mnt/local/sysconfig/site-1-peers
 
 ###
 # if no custom rc.user, sed into the template rc.user file to generate board specific clocking
@@ -217,12 +219,10 @@ for st in $staging; do
 	githash=$(git rev-parse HEAD)
 	user="${USER}@$(hostname)"
         sed -i -e "2i#\n# created by deploy_sysconfig for uut:$uut mezz:$mezz\n# by ${user} on $(date)\n# git $githash" $st/mnt/local/rc.user
-	cp transient.init site-1-peers $st/mnt/local/sysconfig
 	tar cvf ARCHIVE/$uut.tar -C $st .
 	echo "INFO ARCHIVE/$uut.tar created"
 	uut=$host2
 done
-rm transient.init site-1-peers
 
 
 ###

@@ -93,10 +93,6 @@ echo "DEBUG host $host mezz $mezz $sites SITELIST:$SITELIST sitecount:$sitecount
 # set some defaults in STAGING. Maybe they get overwritten
 cp -r sysconfig STAGING/mnt/local
 
-if [[ $host =~ "kmcu" ]]; then
-	echo WORKTODO : kmcu does NOT mess with rc.user, make your own
-	rm STAGING/mnt/local/rc.user
-fi
 
 case $mezz in
 "acq420"|"acq423"|"acq427")
@@ -187,10 +183,13 @@ sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
 sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >site-1-peers
 
 ###
-# Sed into the template rc.user file to generate board specific clocking
+# if no custom rc.user, sed into the template rc.user file to generate board specific clocking
 ###
-cmp -s rc.user STAGING/mnt/local/rc.user
-if [ ! -e STAGING/mnt/local/rc.user ]; then
+
+if [[ $host =~ "kmcu" ]]; then
+	echo WORKTODO : kmcu does NOT mess with rc.user, make your own
+	rm STAGING/mnt/local/rc.user
+elif [ ! -e STAGING/mnt/local/rc.user ]; then
 	if [[ $mezz =~ "acq43" ]]; then
 		acq_sub="acq43x"
 		setp=$samp_rate
@@ -211,6 +210,8 @@ if [ ! -e STAGING/mnt/local/rc.user ]; then
 	sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
 		-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
 		template_rc.user > STAGING/mnt/local/rc.user
+else
+	echo "DEBUG using custom rc.user"
 fi
 
 staging=STAGING
@@ -225,6 +226,7 @@ for st in $staging; do
 	echo "INFO ARCHIVE/$uut.tar created"
 	uut=$host2
 done
+rm transient.init site-1-peers
 
 
 ###

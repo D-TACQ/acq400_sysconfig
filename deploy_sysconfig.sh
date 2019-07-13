@@ -72,25 +72,19 @@ get_nchan() {
 get_sr() {
 	mz=$1
 	sr=1000000
+
 	case $mz in
 	acq420|acq425|acq427)
-		ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
-     		[ $? -eq 0 ] && sr=2000000
-	;;
-	acq423)
-		sr=200000
-	;;
-	acq424)
-	;;
-	acq430|acq435|acq437)
-		sr=43500
-	;;
-	acq480|acq482)
-		sr=10000000
-	;;
+		if [ $debug == 0 ]; then
+			ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
+     			[ $? -eq 0 ] && sr=2000000
+		fi;;
+	acq423) 		sr=200000	;;
+	acq424) 				;;
+	acq430|acq435|acq437) 	sr=43500	;;
+	acq480|acq482) 		sr=10000000	;;
 	*)
-		echo "WARNING: get_sr() mz $mz not specified return default $sr"
-	;;
+		echo "WARNING: get_sr() mz $mz not specified return default $sr";;
 	esac
 	echo $sr
 }
@@ -148,7 +142,6 @@ case $mezz in
   trans_file="bolo8_transient.init"
   ;;
 "dio432")
-  custom_rc=1
   trans_file="acq43X_transient.init"
   cp dio432_rc.user STAGING/mnt/local/rc.user
   cp DO_acq420_custom STAGING/mnt/local/acq420_custom
@@ -162,8 +155,7 @@ esac
 
 echo "DEBUG trans_file $trans_file MODNAME $MODNAME"
 if [ ! -e ${MODNAME}_transient.init ]; then
-	echo "Warning : ${MODNAME}_transient.init not found .. but that is probably OK"
-	#exit 1
+	echo "DEBUG : ${MODNAME}_transient.init not found .. will use default"
 fi
 
 ###

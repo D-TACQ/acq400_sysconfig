@@ -10,7 +10,17 @@ fi
 host=$1
 carr=${host:3:4}
 
+debug=${DRYRUN:-0}
+
 ACQ1014=${ACQ1014:-0}
+
+if [ $debug -ne 0 ]; then
+	ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
+        if [ $? -eq 0 ]; then
+		echo "ACQ1014 auto-detected"
+		ACQ1014=1
+	fi
+fi
 if [ $ACQ1014 == 1 ]; then
 	host2=${host: -3};host2=$((host2+1));host2=(${host: 0:8}$host2)
 	echo ACQ1014 $host host2 configured $host2
@@ -20,7 +30,6 @@ shift;shift
 sites="${*:-1}"
 SITELIST="$(echo $sites | tr \  ,)"
 sitecount=$(echo -n $sites | tr -d \  | wc -c)
-debug=${DRYRUN:-0}
 
 
 if [ ! -z "$(git status --porcelain)" ]; then 
@@ -123,31 +132,28 @@ case $mezz in
   trans_file="acq435-16_transient.init"
   ;;
 "acq480")
-     trans_file="acq480_transient.init"
-     if [ $debug == 0 ] ; then
-          if [[ $host =~ "acq1001" ]]; then
-               ssh root@$host grep devicetree_image /tmp/u-boot_env | grep -q 1014
-               if [ $? -eq 0 ]; then
-                    echo +++ acq1014 found
-                    echo -e "\e[34mCopying config files to both $host and $host2"; tput sgr0
-                    sed -e "s/%MAST_HOST%/$host2/g" acq1014_epics_mirror_def > acq1014_epics_mirror
-		    mkdir STAGING STAGING2
-		    for st in STAGING STAGING2; do
-	            	cp acq480_1014_rc.user ${st}/mnt/local/rc.user
-                    	cp acq1014_epics_mirror ${st}/mnt/local/sysconfig/epics.sh
-                    	cp acq1001_acq480_bos.sh ${st}/mnt/local/sysconfig/bos.sh
-                    	cp acq1001_acq480_acq420_custom ${st}/mnt/local/acq420_custom
-		    done
-               else
-                    #cp acq480_1001_rc.user STAGING/mnt/local/rc.user
-                    cp acq480_rc.user STAGING/mnt/local/rc.user
-                    cp acq1001_acq480_bos.sh STAGING/mnt/local/sysconfig/bos.sh
-                    cp acq1001_acq480_acq420_custom STAGING/mnt/local/acq420_custom
+	trans_file="acq480_transient.init"
+	if [[ $host =~ "acq1001" ]]; then
+		if [ $ACQ1014 == 1 ]; then
+                	echo +++ acq1014 found
+			echo -e "\e[34mCopying config files to both $host and $host2"; tput sgr0
+			sed -e "s/%MAST_HOST%/$host2/g" acq1014_epics_mirror_def > acq1014_epics_mirror
+			mkdir STAGING STAGING2
+			for st in STAGING STAGING2; do
+	            		cp acq480_1014_rc.user ${st}/mnt/local/rc.user
+	                    	cp acq1014_epics_mirror ${st}/mnt/local/sysconfig/epics.sh
+	                    	cp acq1001_acq480_bos.sh ${st}/mnt/local/sysconfig/bos.sh
+	                    	cp acq1001_acq480_acq420_custom ${st}/mnt/local/acq420_custom
+			done
+		else
+			#cp acq480_1001_rc.user STAGING/mnt/local/rc.user
+			cp acq480_rc.user STAGING/mnt/local/rc.user
+			cp acq1001_acq480_bos.sh STAGING/mnt/local/sysconfig/bos.sh
+			cp acq1001_acq480_acq420_custom STAGING/mnt/local/acq420_custom
                fi
-          else
-               cp acq480_rc.user STAGING/mnt/local/rc.user
-          fi
-     fi
+	else
+        	cp acq480_rc.user STAGING/mnt/local/rc.user
+        fi
   ;;
 "bolo8")
   trans_file="bolo8_transient.init"

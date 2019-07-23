@@ -1,4 +1,8 @@
-# DEFAULT init for acq480, 50 MHz, auto soft trigger
-/usr/local/CARE/acq1014+acq480.init 50000000
-watchdog /dev/watchdog0
+# DEFAULT init for acq480, 20000000 Hz, auto soft trigger
+/usr/local/CARE/acq1014\+acq480.init
+# Local clock and soft trigger
+set.site 0 sync_role master 20000000
+# Alternate front panel clock and front panel trigger
+#set.site 0 sync_role fpmaster 20000000 1000000
 
+# For other combinations try 'set.site 0 sync_role help'

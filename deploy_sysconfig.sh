@@ -82,7 +82,7 @@ get_sr() {
 	acq423) 		sr=200000	;;
 	acq424) 				;;
 	acq430|acq435|acq437) 	sr=43500	;;
-	acq480|acq482) 		sr=10000000	;;
+	acq480|acq482) 		sr=20000000	;;
 	*)
 		echo "WARNING: get_sr() mz $mz not specified return default $sr";;
 	esac
@@ -125,7 +125,7 @@ case $mezz in
   ;;
 "acq480")
 	trans_file="acq480_transient.init"
-       	cp acq480_rc.user STAGING/mnt/local/rc.user
+       	#cp acq480_rc.user STAGING/mnt/local/rc.user
 	cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
 	if [[ $host =~ "acq1001" ]]; then
 		cp acq1001_acq480_bos.sh STAGING/mnt/local/sysconfig/bos.sh

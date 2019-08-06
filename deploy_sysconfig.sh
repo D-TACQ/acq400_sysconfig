@@ -58,7 +58,7 @@ get_nchan() {
 		acq427) nc=8;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
-		acq435-16) nc=32;;
+		acq435-16) nc=16;;
                 acq437) nc=16;;
 		acq480) nc=8;;
 		bolo8)	nc=8;;
@@ -79,10 +79,10 @@ get_sr() {
 			ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
      			[ $? -eq 0 ] && sr=2000000
 		fi;;
-	acq423) 		sr=200000	;;
-	acq424) 				;;
-	acq430|acq435|acq437) 	sr=43500	;;
-	acq480|acq482) 		sr=20000000	;;
+	acq423) 			sr=200000	;;
+	acq424) 					;;
+	acq430|acq435|acq435-16|acq437) sr=43500	;;
+	acq480|acq482) 			sr=20000000	;;
 	*)
 		echo "WARNING: get_sr() mz $mz not specified return default $sr";;
 	esac

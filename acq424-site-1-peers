@@ -1,0 +1,4 @@
+PEERS=%SITELIST%
+KNOBS=clkdiv,trg,event0,emulate_acq196,nacc
+
+

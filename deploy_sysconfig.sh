@@ -2,10 +2,12 @@
 
 if [[ $# -lt 2 ]] ; then
     echo "Enter Carrier followed by Mezzanine"
-    echo " 	e.g. acq1001_079 acq420 [site1 site2 siteN]"
+    echo "	e.g. acq1001_079 acq420 [site1 site2 siteN]"
+    echo "	e.g. acq2106_126 acq424 1 2 3 4 5"
     echo "FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING"
     echo "FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1"
     echo "... nb if NOT DRYRUN, ACQ1014 will autodetect"
+    echo "NB: does NOT handle mixed sites, go with the site1 module type, omit sites with other modules"
     exit 0
 fi
 

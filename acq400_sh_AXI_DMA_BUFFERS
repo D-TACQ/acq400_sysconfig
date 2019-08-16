@@ -2,6 +2,6 @@ REBOOT_KNOB=y
 BLEN=4194304
 NBUF=128
 # scaled rate status for CONTINUOUS OPI
-#STREAM_OPTS=--fill-scale
-STREAM_OPTS=--null-copy
+STREAM_OPTS=--fill-scale
+#STREAM_OPTS=--null-copy
 

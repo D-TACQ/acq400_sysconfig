@@ -1,0 +1,10 @@
+cp /usr/local/CARE/acq400_streamd.0.conf-soft_trigger \
+	/etc/sysconfig/acq400_streamd.0.conf
+
+/usr/local/CARE/BOLO/bolo_powerup_init.sh &
+# Because typing passwords all the time gets tiring...
+# peter says : use package custom_sshkeys
+#cat /mnt/local/f7823.pubkey >> /root/.ssh/authorized_keys 
+
+cp /mnt/local/get.xdt /usr/local/bin
+set.fanspeed 100

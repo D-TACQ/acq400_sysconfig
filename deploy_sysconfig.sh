@@ -145,6 +145,7 @@ case $mezz in
   ;;
 "bolo8")
   trans_file="bolo8_transient.init"
+  cp bolo8_rc.user STAGING/mnt/local/rc.user
   ;;
 "dio432")
   trans_file="acq43X_transient.init"

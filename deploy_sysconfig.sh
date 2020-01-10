@@ -234,12 +234,12 @@ done
 ###
 if [ $debug == 0 ]; then
 	if [ ! -z "$(git status --porcelain)" ]; then 
-		echo "ERROR: git is not clean fix it please"
+		echo -e "\e[31mERROR: git is not clean fix it please\e[0m"
 		exit 1     
 	fi
 	cat ARCHIVE/$host.tar | ssh root@$host 'tar xvf - -C /'
 	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
 else
-	echo debug mode no deploy. Look in ./STAGING for details
+	echo -e "\e[33mdebug mode no deploy. Look in ./STAGING for details\e[0m"
 fi
 

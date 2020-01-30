@@ -1,0 +1,17 @@
+#!/bin/bash
+
+[ -z $1 ] && (echo usage deploy.wr UUT1 [UUT2...]; exit 1)
+
+
+deploy_wr() {
+	uut=$1
+	echo "deploy_wr $uut"
+	scp -r WR/local/* root@$uut:/mnt/local
+}
+
+
+for u in $*; do
+	deploy_wr $u
+done
+
+

@@ -77,7 +77,7 @@ get_sr() {
 	sr=1000000
 
 	case $mz in
-	acq420|acq425|acq427)
+	acq420|acq425|acq425-18|acq427)
 		if [ $debug == 0 ]; then
 			ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
      			[ $? -eq 0 ] && sr=2000000

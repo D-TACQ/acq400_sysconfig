@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ $# -lt 2 ]] ; then
     echo "Enter Carrier followed by Mezzanine"
@@ -29,20 +29,22 @@ if [ $ACQ1014 == 1 ]; then
 	host2=${host: -3};host2=$((host2+1));host2=(${host: 0:8}$host2)
 	echo ACQ1014 $host host2 configured $host2
 fi
-mezz=$2
-if [[ "xmezz" == "xWR*" ]]; then
-	wrclk=${STUFF#*=}
-	if [ $wrclk != $mezz ]; then
+
+if [[ x$2 == xWR* ]]; then
+	wrclk=${2#*=}
+	if [ $wrclk != $2 ]; then
 		WR=$wrclk
 	else
 		WR=40000000
 	fi
 	echo White Rabbit System.. clocks at 40MHz for 25nsec tick. Actual clock $WR
 	mezz=$3
-	if [[ "xmezz" != "xacq48*" ]]; then
-		echo warning: WR clock rate valid acq48x only, check wr.sh TICKNS
-	fi
 	shift
+	if [[ x$mezz != xacq48* ]]; then
+		echo WARNING: WR clock rate valid acq48x only, check wr.sh TICKNS
+	fi
+else
+	mezz=$2
 fi
 shift;shift
 sites="${*:-1}"
@@ -228,8 +230,8 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 
 	if [ "x$WR" != "x" ]; then
 		echo "# WR additions for WRCLK $WR"
-		/usr/local/CARE/set_clk_WR $WR
-		/mnt/local/sysconfig/route-WR-FP
+		echo "/usr/local/CARE/set_clk_WR $WR"
+		echo "/mnt/local/sysconfig/route-WR-FP"
 	fi
 	) > STAGING/mnt/local/rc.user
 else

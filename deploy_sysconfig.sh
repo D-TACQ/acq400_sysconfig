@@ -242,6 +242,7 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 else
 	echo "DEBUG using custom rc.user"
 fi
+[ "x$WR" != "x" ] && cp -r WR/local/* STAGING/mnt/local
 
 staging=STAGING
 [ -e STAGING2 ] && staging="$staging STAGING2"
@@ -269,9 +270,6 @@ if [ $debug == 0 ]; then
 	cat ARCHIVE/$host.tar | ssh root@$host 'tar xvf - -C /'
 	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
 
-	if [ "x$WR" != "x" ]; then
-		./deploy.wr $host
-	fi
 else
 	echo -e "\e[33mdebug mode no deploy. Look in ./STAGING for details\e[0m"
 fi

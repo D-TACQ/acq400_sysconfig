@@ -30,6 +30,15 @@ if [ $ACQ1014 == 1 ]; then
 	echo ACQ1014 $host host2 configured $host2
 fi
 mezz=$2
+if [[ "xmezz" == "xWR*" ]]; then
+	echo White Rabbit System.. clocks at 40MHz for 25nsec tick
+	WR=40000000
+	mezz=$3
+	if [[ "xmezz" != "xacq48*" ]]; then
+		echo warning: WR clock rate valid acq48x only, check wr.sh TICKNS
+	fi
+	shift
+fi
 shift;shift
 sites="${*:-1}"
 SITELIST="$(echo $sites | tr \  ,)"
@@ -82,10 +91,10 @@ get_sr() {
 			ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
      			[ $? -eq 0 ] && sr=2000000
 		fi;;
-	acq423) 				sr=200000	;;
-	acq424) 						;;
-	acq430|acq435|acq435-16|acq436|acq437)	sr=43500	;;
-	acq480|acq482) 				sr=20000000	;;
+	acq423) 				sr=200000	  ;;
+	acq424) 						  ;;
+	acq430|acq435|acq435-16|acq436|acq437)	sr=43500	  ;;
+	acq480|acq482) 				sr=${WR:-20000000};;
 	*)
 		echo "WARNING: get_sr() mz $mz not specified return default $sr";;
 	esac
@@ -239,6 +248,10 @@ if [ $debug == 0 ]; then
 	fi
 	cat ARCHIVE/$host.tar | ssh root@$host 'tar xvf - -C /'
 	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
+
+	if [ "x$WR" != "x" ]; then
+		./deploy.wr host
+	fi
 else
 	echo -e "\e[33mdebug mode no deploy. Look in ./STAGING for details\e[0m"
 fi

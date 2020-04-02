@@ -31,8 +31,13 @@ if [ $ACQ1014 == 1 ]; then
 fi
 mezz=$2
 if [[ "xmezz" == "xWR*" ]]; then
-	echo White Rabbit System.. clocks at 40MHz for 25nsec tick
-	WR=40000000
+	wrclk=${STUFF#*=}
+	if [ $wrclk != $mezz ]; then
+		WR=$wrclk
+	else
+		WR=40000000
+	fi
+	echo White Rabbit System.. clocks at 40MHz for 25nsec tick. Actual clock $WR
 	mezz=$3
 	if [[ "xmezz" != "xacq48*" ]]; then
 		echo warning: WR clock rate valid acq48x only, check wr.sh TICKNS
@@ -216,9 +221,17 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 		echo "DEBUG HELPME setp not set"
 	fi
 	echo "DEBUG acq_sub $acq_sub setp $setp"
+	(
 	sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
 		-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
-		template_rc.user > STAGING/mnt/local/rc.user
+		template_rc.user 
+
+	if [ "x$WR" != "x" ]; then
+		echo "# WR additions for WRCLK $WR"
+		/usr/local/CARE/set_clk_WR $WR
+		/mnt/local/sysconfig/route-WR-FP
+	fi
+	) > STAGING/mnt/local/rc.user
 else
 	echo "DEBUG using custom rc.user"
 fi

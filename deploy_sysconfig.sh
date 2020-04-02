@@ -118,6 +118,7 @@ echo "DEBUG host $host mezz $mezz $sites SITELIST:$SITELIST sitecount:$sitecount
 # set some defaults in STAGING. Maybe they get overwritten
 cp -r sysconfig STAGING/mnt/local
 
+cp acq400_sh_default STAGING/mnt/local/sysconfig/acq400.sh
 
 case $mezz in
 "acq420"|"acq423"|"acq427")
@@ -174,6 +175,10 @@ case $mezz in
   exit 0
   ;;
 esac
+
+if [ "x$WR" != "x" ]; then
+	echo "WHITE_RABBIT=1" >> STAGING/mnt/local/sysconfig/acq400.sh
+fi
 
 echo "DEBUG trans_file $trans_file MODNAME $MODNAME"
 if [ ! -e ${MODNAME}_transient.init ]; then

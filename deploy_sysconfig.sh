@@ -265,7 +265,7 @@ if [ $debug == 0 ]; then
 	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
 
 	if [ "x$WR" != "x" ]; then
-		./deploy.wr host
+		./deploy.wr $host
 	fi
 else
 	echo -e "\e[33mdebug mode no deploy. Look in ./STAGING for details\e[0m"

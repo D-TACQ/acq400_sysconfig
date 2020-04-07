@@ -2,7 +2,7 @@
 WRTD_TICKNS=25
 # time delay on trigger, 50msec is safe
 WRTD_DELTA_NS=50000000
-WRTD_DNS=WRTD_DELTA_NS
+WRTD_DNS=$WRTD_DELTA_NS
 WRTD_VERBOSE=0
 # we're going to run TX on demand to avoid multi-box race when trigger continuous
 WRTD_TX=0

@@ -106,7 +106,7 @@ get_sr() {
 	acq430|acq435|acq435-16|acq436|acq437)	sr=43500	  ;;
 	acq480|acq482) 				sr=${WR:-20000000};;
 	*)
-		echo "WARNING: get_sr() mz $mz not specified return default $sr";;
+		echo >&2  "WARNING: get_sr() mz $mz not specified return default $sr";;
 	esac
 	echo $sr
 }
@@ -216,6 +216,8 @@ fi
 ###
 # if no custom rc.user, sed into the template rc.user file to generate board specific clocking
 ###
+
+setp=1000000
 
 if [[ $host =~ "kmcu" ]]; then
 	echo WORKTODO : kmcu does NOT mess with rc.user, make your own

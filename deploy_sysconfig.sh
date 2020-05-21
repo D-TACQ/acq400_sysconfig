@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 if [[ $# -lt 2 ]] ; then
     echo "Enter Carrier followed by Mezzanine"
     echo "	e.g. acq1001_079 acq420 [site1 site2 siteN]"
@@ -40,7 +42,9 @@ if [[ x$2 == xWR* ]]; then
 	echo White Rabbit System.. clocks at 40MHz for 25nsec tick. Actual clock $WR
 	mezz=$3
 	shift
-	if [[ x$mezz != xacq48* ]]; then
+	if [[ x$mezz = xtest ]]; then
+		echo "TEST module selected"
+	elif [[ x$mezz != xacq48* ]]; then
 		echo WARNING: WR clock rate valid acq48x only, check wr.sh TICKNS
 	fi
 else
@@ -82,6 +86,7 @@ get_nchan() {
 		acq480) nc=8;;
 		bolo8)	nc=8;;
                 dio432) nc=1;;
+		test)   nc=1;;
 		*)	echo ERROR: unknown module; exit 1;;
 		esac
 	fi
@@ -119,6 +124,8 @@ echo "DEBUG host $host mezz $mezz $sites SITELIST:$SITELIST sitecount:$sitecount
 cp -r sysconfig STAGING/mnt/local
 
 cp acq400_sh_default STAGING/mnt/local/sysconfig/acq400.sh
+
+trans_file="none"
 
 case $mezz in
 "acq420"|"acq423"|"acq427")
@@ -169,6 +176,8 @@ case $mezz in
   cp dio432_rc.user STAGING/mnt/local/rc.user
   cp DO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
+"test")
+  echo "test .. do nothing";;
 *)
   echo -e "\nInvalid mezzanine specified!!!\n"
   echo -e "acq420\nacq425\n2xacq425\nacq424\n2xacq424\nacq430\nacq435\nbolo8\n"
@@ -197,11 +206,14 @@ fi
 ###
 # Sed into the transient (and peers) files and insert CH count and run0 incantation
 ###
-sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
-	$trans_file >STAGING/mnt/local/sysconfig/transient.init
-[ -e STAGING2 ] && cp STAGING/mnt/local/sysconfig/transient.init STAGING2/mnt/local/sysconfig/transient.init
 
-sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >STAGING/mnt/local/sysconfig/site-1-peers
+if [ "x$trans_file" != "xnone" ]; then
+   sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
+	$trans_file >STAGING/mnt/local/sysconfig/transient.init
+   [ -e STAGING2 ] && cp STAGING/mnt/local/sysconfig/transient.init STAGING2/mnt/local/sysconfig/transient.init
+
+   sed -e "s/%SITELIST%/$SITELIST/g" $PEERS >STAGING/mnt/local/sysconfig/site-1-peers
+fi
 
 ###
 # if no custom rc.user, sed into the template rc.user file to generate board specific clocking

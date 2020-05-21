@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 if [[ $# -lt 2 ]] ; then
     echo "Enter Carrier followed by Mezzanine"
     echo "	e.g. acq1001_079 acq420 [site1 site2 siteN]"

@@ -184,7 +184,8 @@ case $mezz in
 esac
 
 if [ "x$WR" != "x" ]; then
-	echo "WHITE_RABBIT=1" >> STAGING/mnt/local/sysconfig/acq400.sh
+	echo "STUBBED WHITE_RABBIT=1 .. should be automatic dep on FPGA personality"
+#	echo "WHITE_RABBIT=1" >> STAGING/mnt/local/sysconfig/acq400.sh
 fi
 
 echo "DEBUG trans_file $trans_file MODNAME $MODNAME"

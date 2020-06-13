@@ -35,7 +35,7 @@ if [[ x$2 == xWR* ]]; then
 	if [ $wrclk != $2 ]; then
 		WR=$wrclk
 	else
-		WR=40000000
+		WR=40M
 	fi
 	echo White Rabbit System.. clocks at 40MHz for 25nsec tick. Actual clock $WR
 	mezz=$3

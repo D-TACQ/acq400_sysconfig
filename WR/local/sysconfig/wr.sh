@@ -10,6 +10,6 @@ WRTD_TX=0
 #WRTD_RX_MATCHES=dog,cat,rabbit,mouse
 #export WRTD_RX_MATCHES=dog,cat,rabbit,mouse,acq2106_133.0
 export WRTD_RX_MATCHES=$(hostname),ACQ400
-export WRTD_ID=--tx_id=ACQ400
+export WRTD_ID=ACQ400
 WRTD_OPTS=--rt_prio=15
 

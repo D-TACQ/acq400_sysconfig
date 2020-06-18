@@ -1,0 +1,3 @@
+PEERS=%SITELIST%
+KNOBS=clk,clkdiv,trg,event0,bolo_dac_data32,bolo_dac_enable,bolo_dac_lowlat,bolo_dac_reset
+

@@ -82,7 +82,7 @@ get_nchan() {
 		acq436) nc=24;;
                 acq437) nc=16;;
 		acq480) nc=8;;
-		bolo8)	nc=8;;
+		bolo8)	nc=24;;
                 dio432) nc=1;;
 		test)   nc=1;;
 		*)	echo ERROR: unknown module; exit 1;;
@@ -167,7 +167,10 @@ case $mezz in
   ;;
 "bolo8")
   trans_file="bolo8_transient.init"
-  cp bolo8_rc.user STAGING/mnt/local/rc.user
+  cp bolo8/bolo8_rc.user STAGING/mnt/local/rc.user
+  cp bolo8/postshot STAGING/mnt/local/
+  cp bolo8/get.xdt STAGING/mnt/local/
+  cp bolo8/bolo.sh STAGING/mnt/local/sysconfig/
   ;;
 "dio432")
   trans_file="acq43X_transient.init"

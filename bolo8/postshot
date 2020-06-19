@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+#mdsConnect helium
+mdsConnect andros
+mdsOpen $(hostname)
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO1.CH%02d" --site=1 1:24
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO2.CH%02d" --site=2 1:24
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO3.CH%02d" --site=3 1:24
+mdsPutCh -v 1 --size=4 --expr "\"Build_Signal(Build_With_Units(\$VALUE, 'raw'),\$,%tbase)\"" --field ".BOLO4.CH%02d" --site=4 1:24
+mdsClose
+mdsDisconnect
+/usr/local/bin/reset.dsp
+

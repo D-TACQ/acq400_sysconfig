@@ -1,0 +1,8 @@
+export BOLO_ACTIVE_CHAN="1 2 3 4 9 10 11 12 17 18 19 20 25 26 27 28"
+export BOLO_VERBOSE=1
+set.site 14 DIODE_DROP_V 0.5
+set.site 14 THEAT 1.0
+set.site 14 TCOOL 1.0
+set.site 14 VBIAS 1.2
+export COPY_CALIB_DATA=1
+export CALIBFITARGS="-H 0.6"

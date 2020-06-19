@@ -1,0 +1,3 @@
+#!/bin/sh
+# ASSUMES SITE1 is the MCLK
+echo 100e-6

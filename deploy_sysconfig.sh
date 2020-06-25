@@ -171,6 +171,7 @@ case $mezz in
   cp bolo8/postshot STAGING/mnt/local/
   cp bolo8/get.xdt STAGING/mnt/local/
   cp bolo8/bolo.sh STAGING/mnt/local/sysconfig/
+  cp bolo8/acq400.sh STAGING/mnt/local/sysconfig/
   ;;
 "dio432")
   trans_file="acq43X_transient.init"

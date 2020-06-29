@@ -187,10 +187,20 @@ case $mezz in
   ;;
 esac
 
+echo PGMWASHERE $carr $sitecount
+if [ "$carr" = "2106" ] && [ $sitecount -gt 3 ]; then
+	echo "carrier:$carr sitecount:$sitecount FANSPEED=100"
+	echo "FANSPEED=100" >> STAGING/mnt/local/sysconfig/acq400.sh
+elif [ "$carr" = "1001" ] && [ $sitecount -gt 1 ]; then
+	echo "carrier:$carr sitecount:$sitecount FANSPEED=100"
+	echo "FANSPEED=100" >> STAGING/mnt/local/sysconfig/acq400.sh
+fi
+
+
 if [ "x$WR" != "x" ]; then
 	echo "STUBBED WHITE_RABBIT=1 .. should be automatic dep on FPGA personality"
 #	echo "WHITE_RABBIT=1" >> STAGING/mnt/local/sysconfig/acq400.sh
-	echo "enable ETH1_E1000X=y FLARE todo: make /mnt/local/netowork for eth1"
+	echo "enable ETH1_E1000X=y FLARE todo: make /mnt/local/network for eth1"
 	echo "ETH1_E1000X=y" >> STAGING/mnt/local/sysconfig/acq400.sh
 fi
 

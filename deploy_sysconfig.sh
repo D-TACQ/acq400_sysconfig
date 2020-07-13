@@ -111,12 +111,26 @@ get_sr() {
 	echo $sr
 }
 
+die()
+{
+	echo ERROR $*
+	exit 1
+}
+
+set_long_buffers() {
+        echo DEBUG set_long_buffers to comp slow pl330 setup
+	[ ! -e STAGING/mnt/local/sysconfig/acq400.sh ] && die "SEQUENCE ERROR"
+	cat - >>STAGING/mnt/local/sysconfig/acq400.sh <<EOF
+BLEN=4194304
+NBUF=128
+EOF
+}
 MODNAME=${mezz%-*}
 nchan=$(get_nchan $mezz)
 samp_rate=$(get_sr $mezz)
 echo "DEBUG SR $samp_rate"
 let NCHAN=$nchan*$sitecount
-echo "DEBUG host $host mezz $mezz $sites SITELIST:$SITELIST sitecount:$sitecount NCHAN $NCHAN"
+echo "DEBUG host $host mezz $mezz $sites MODNAME $MODNAME SITELIST:$SITELIST sitecount:$sitecount NCHAN $NCHAN"
 
 # set some defaults in STAGING. Maybe they get overwritten
 cp -r sysconfig STAGING/mnt/local
@@ -126,9 +140,11 @@ cp acq400_sh_default STAGING/mnt/local/sysconfig/acq400.sh
 trans_file="none"
 
 case $mezz in
-"acq420"|"acq423"|"acq427")
-  trans_file="acq42X_transient.init"
-  ;;
+"acq423")
+ [ $NCHAN -ge 128 ] && set_long_buffers
+ trans_file="acq42X_transient.init" ;;
+"acq420"|"acq427")
+  trans_file="acq42X_transient.init" ;;
 "acq425"|"acq424")
   trans_file="acq42X_transient.init"
   [ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
@@ -143,11 +159,10 @@ case $mezz in
   cp acq430_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
 "acq435"|"acq436"|"acq437")
-  trans_file="acq43X_transient.init"
-  ;;
+  [ $NCHAN -gt 144 ] && set_long_buffers
+  trans_file="acq43X_transient.init" ;;
 "acq435-16")
-  trans_file="acq435-16_transient.init"
-  ;;
+  trans_file="acq435-16_transient.init" ;;
 "acq480")
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user

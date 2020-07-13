@@ -223,7 +223,11 @@ fi
 ###
 
 if [ "x$trans_file" != "xnone" ]; then
-   sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" \
+   NSAMPLES=100000
+   if [ $NCHAN -ge 96 ]; then
+	NSAMPLES=50000
+   fi
+   sed -e "s/%NCHAN%/$NCHAN/g" -e "s/%SITELIST%/$SITELIST/g" -e "s/%NSAMPLES%/$NSAMPLES/g" \
 	$trans_file >STAGING/mnt/local/sysconfig/transient.init
    [ -e STAGING2 ] && cp STAGING/mnt/local/sysconfig/transient.init STAGING2/mnt/local/sysconfig/transient.init
 

@@ -1,7 +1,7 @@
 
 # NSAMPLES sets EPICS transient WF length
 # next line: expect condition to stay this boot
-COOKED=0 NSAMPLES=100000 NCHAN=%NCHAN% TYPE=SHORT
+COOKED=0 NSAMPLES=%NSAMPLES% NCHAN=%NCHAN% TYPE=SHORT
 
 # set a default transient. expect this to change at run time
 transient PRE=2000 POST=2000 OSAM=1 DEMUX=1 SOFT_TRIGGER=1

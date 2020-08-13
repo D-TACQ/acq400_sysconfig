@@ -54,14 +54,14 @@ SITELIST="$(echo $sites | tr \  ,)"
 sitecount=$(echo -n $sites | tr -d \  | wc -c)
 
 
-if [ ! -z "$(git status --porcelain)" ]; then 
+if [ ! -z "$(git status --porcelain)" ]; then
 	echo "WARNING: git is not clean, make it a DRYRUN"
 	debug=1
 fi
 
 echo "CLEANUP rm STAGING"
 rm -Rf STAGING STAGING2
-mkdir -p STAGING/mnt/local/cal 
+mkdir -p STAGING/mnt/local/cal
 echo STAGING is a place to build a local copy of the remote image
 
 get_nchan() {
@@ -71,7 +71,10 @@ get_nchan() {
 
 		case $mz in
 		acq420) nc=4;;
+		ao420) nc=4;;
 		acq424) nc=32;;
+		ao424) nc=32;;
+		ao424-16) nc=16;;
 		acq423) nc=32;;
 		acq425) nc=16;;
 		acq425-18) nc=16;;
@@ -103,6 +106,7 @@ get_sr() {
 		fi;;
 	acq423) 				sr=200000	  ;;
 	acq424) 						  ;;
+	ao424) 						sr=500000;;
 	acq430|acq435|acq435-16|acq436|acq437)	sr=43500	  ;;
 	acq480|acq482) 				sr=${WR:-20000000};;
 	*)
@@ -193,6 +197,9 @@ case $mezz in
   cp dio432_rc.user STAGING/mnt/local/rc.user
   cp DO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
+"ao420"|"ao424"|"ao424-16")
+  trans_file="ao42X_transient.init"
+  ;;
 "test")
   echo "test .. do nothing";;
 *)
@@ -265,6 +272,9 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 	elif [[ $mezz =~ "acq42" ]]; then
 		acq_sub="acq42x"
 		setp=$samp_rate
+	elif [[ $mezz =~ "ao42" ]]; then
+		acq_sub="acq42x"
+		setp=$samp_rate
 	elif [[ $mezz =~ "acq48" ]]; then
 		acq_sub="acq480"
 		setp=$samp_rate
@@ -279,7 +289,7 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 	(
 	sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
 		-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
-		template_rc.user 
+		template_rc.user
 
 	if [ "x$WR" != "x" ]; then
 		echo "# WR additions for WRCLK $WR"
@@ -311,9 +321,9 @@ done
 # Copy files to UUT
 ###
 if [ $debug == 0 ]; then
-	if [ ! -z "$(git status --porcelain)" ]; then 
+	if [ ! -z "$(git status --porcelain)" ]; then
 		echo -e "\e[31mERROR: git is not clean fix it please\e[0m"
-		exit 1     
+		exit 1
 	fi
 	cat ARCHIVE/$host.tar | ssh root@$host 'tar xvf - -C /'
 	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')

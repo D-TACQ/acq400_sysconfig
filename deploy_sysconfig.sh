@@ -200,7 +200,7 @@ case $mezz in
 "ao420"|"ao424")
   trans_file="ao/ao42X_transient.init"
   cp ao/AO_acq420_custom STAGING/mnt/local/acq420_custom
-  ::
+  ;;
 "ao424-16")
   trans_file="ao/ao42X_transient_odd_chan.init"
   cp ao/AO_acq420_custom STAGING/mnt/local/acq420_custom

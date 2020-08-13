@@ -199,6 +199,7 @@ case $mezz in
   ;;
 "ao420"|"ao424"|"ao424-16")
   trans_file="ao42X_transient.init"
+  cp AO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
 "test")
   echo "test .. do nothing";;

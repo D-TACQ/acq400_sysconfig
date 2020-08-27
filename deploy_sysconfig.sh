@@ -297,9 +297,15 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 		template_rc.user
 
 	if [ "x$WR" != "x" ]; then
-		echo "# WR additions for WRCLK $WR"
-		echo "/usr/local/CARE/set_clk_WR $WR"
-		echo "/mnt/local/sysconfig/route-WR-FP"
+		if [ "x$FLARE" = "x1" ]; then
+			echo "# FLARE additions, please be sure to enable packages"
+			echo '# 35-gpg* '
+			echo '# 99-flare* '
+		else
+			echo "# WR additions for WRCLK $WR"
+			echo "/usr/local/CARE/set_clk_WR $WR"
+			echo "/mnt/local/sysconfig/route-WR-FP"
+		fi
 	fi
 	) > STAGING/mnt/local/rc.user
 else

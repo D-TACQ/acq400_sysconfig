@@ -145,7 +145,7 @@ trans_file="none"
 
 case $mezz in
 "acq423")
- [ $NCHAN -ge 128 ] && set_long_buffers
+ [ $NCHAN -gt 128 ] && set_long_buffers
  trans_file="acq42X_transient.init" ;;
 "acq420"|"acq427")
   trans_file="acq42X_transient.init" ;;

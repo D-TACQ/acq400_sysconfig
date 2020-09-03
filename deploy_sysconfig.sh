@@ -304,7 +304,7 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 		else
 			echo "# WR additions for WRCLK $WR"
 			echo "/usr/local/CARE/set_clk_WR $WR"
-			echo "/mnt/local/sysconfig/route-WR-FP"
+			echo "/usr/local/CARE/route-WR-FP"
 		fi
 	fi
 	) > STAGING/mnt/local/rc.user

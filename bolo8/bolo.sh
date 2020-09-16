@@ -6,3 +6,5 @@ set.site 14 TCOOL 1.0
 set.site 14 VBIAS 1.2
 export COPY_CALIB_DATA=1
 export CALIBFITARGS="-H 0.6"
+export CALIBFIT_EXCITEV=18.0
+export LOAD_POWER_FILTERS=1

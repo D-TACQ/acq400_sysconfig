@@ -55,7 +55,7 @@ sitecount=$(echo -n $sites | tr -d \  | wc -c)
 
 
 if [ ! -z "$(git status --porcelain)" ]; then
-	echo "WARNING: git is not clean, make it a DRYRUN"
+	echo -e "\e[91mWARNING: git is not clean, make it a DRYRUN\e[0m"
 	debug=1
 fi
 
@@ -340,6 +340,6 @@ if [ $debug == 0 ]; then
 	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
 
 else
-	echo -e "\e[33mdebug mode no deploy. Look in ./STAGING for details\e[0m"
+	echo -e "\e[91mdebug mode no deploy. Look in ./STAGING for details\e[0m"
 fi
 

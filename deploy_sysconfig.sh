@@ -292,16 +292,16 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 	fi
 	echo "DEBUG acq_sub $acq_sub setp $setp"
 	(
-	sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
-		-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
-		template_rc.user
+	if [ "x$WR" != "x" ] && [ "x$FLARE" = "x1" ]; then
+		echo "# FLARE additions, please be sure to enable packages"
+		echo '# 35-gpg* '
+		echo '# 99-flare* '
+	else
+		sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
+			-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
+			template_rc.user
 
-	if [ "x$WR" != "x" ]; then
-		if [ "x$FLARE" = "x1" ]; then
-			echo "# FLARE additions, please be sure to enable packages"
-			echo '# 35-gpg* '
-			echo '# 99-flare* '
-		else
+		if [ "x$WR" != "x" ]; then
 			echo "# WR additions for WRCLK $WR"
 			echo "/usr/local/CARE/set_clk_WR $WR"
 			echo "/usr/local/CARE/route-WR-FP"

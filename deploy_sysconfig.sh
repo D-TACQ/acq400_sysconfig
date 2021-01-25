@@ -304,7 +304,6 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 		if [ "x$WR" != "x" ]; then
 			echo "# WR additions for WRCLK $WR"
 			echo "/usr/local/CARE/WR/set_clk_WR $WR"
-			echo "#/usr/local/CARE/WR/route-WR-FP # Optional route to FP"
 		fi
 	fi
 	) > STAGING/mnt/local/rc.user

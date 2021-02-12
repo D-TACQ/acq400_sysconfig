@@ -145,13 +145,14 @@ trans_file="none"
 
 case $mezz in
 "acq423")
- [ $NCHAN -gt 128 ] && set_long_buffers
+ [ $NCHAN -ge 128 ] && set_long_buffers
  trans_file="acq42X_transient.init" ;;
 "acq420"|"acq427")
   trans_file="acq42X_transient.init" ;;
 "acq425"|"acq424")
   trans_file="acq42X_transient.init"
   [ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
+  [ $sitecount -ge 2 ] && set_long_buffers
   ;;
 "acq425-18")
   trans_file="acq43X_transient.init"

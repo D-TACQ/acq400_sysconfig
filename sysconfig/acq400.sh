@@ -1,1 +1,3 @@
 REBOOT_KNOB=y
+# RSYSLOG_HOST=naboo
+

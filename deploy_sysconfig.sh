@@ -4,17 +4,28 @@ if [[ $# -lt 2 ]] ; then
     echo "Enter Carrier followed by Mezzanine"
     echo "	e.g. acq1001_079 acq420 [site1 site2 siteN]"
     echo "	e.g. acq2106_126 acq424 1 2 3 4 5"
+    echo "	e.g. acq2106_126 WR acq424 1 2 3 4 5"
+    echo "	e.g. acq2106_126 WR=20M48 acq435 1 3 5"
     echo "FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING"
     echo "FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1"
+    echo "FOR custom sample rate run SR=40000 ./deploy_sysconfig acq2106_269 WR=20M48 acq435 1 3 5"
     echo "... nb if NOT DRYRUN, ACQ1014 will autodetect"
     echo "NB: does NOT handle mixed sites, go with the site1 module type, omit sites with other modules"
     exit 0
 fi
 
+#incant="$0 $*"
 host=$1
 carr=${host:3:4}
 
 debug=${DRYRUN:-0}
+custom_sr=${SR:-0}
+
+if [[ $custom_sr -ne 0 ]]; then
+	incant="SR=$custom_sr $0 $*"
+else
+	incant="$0 $*"
+fi
 
 ACQ1014=${ACQ1014:-0}
 
@@ -131,7 +142,11 @@ EOF
 }
 MODNAME=${mezz%-*}
 nchan=$(get_nchan $mezz)
-samp_rate=$(get_sr $mezz)
+if [[ $custom_sr -ne 0 ]]; then
+	samp_rate=$custom_sr
+else
+	samp_rate=$(get_sr $mezz)
+fi
 echo "DEBUG SR $samp_rate"
 let NCHAN=$nchan*$sitecount
 echo "DEBUG host $host mezz $mezz $sites MODNAME $MODNAME SITELIST:$SITELIST sitecount:$sitecount NCHAN $NCHAN"
@@ -318,7 +333,7 @@ uut=$host
 for st in $staging; do
 	githash=$(git rev-parse HEAD)
 	user="${USER}@$(hostname)"
-        sed -i -e "2i#\n# created by deploy_sysconfig for uut:$uut mezz:$mezz\n# by ${user} on $(date)\n# git $githash" $st/mnt/local/rc.user
+        sed -i -e "2i#\n# created by deploy_sysconfig for uut:$uut mezz:$mezz\n# by ${user} on $(date)\n# git $githash\n# incant $incant\n" $st/mnt/local/rc.user
 	tar cvf ARCHIVE/$uut.tar -C $st .
 	echo "INFO ARCHIVE/$uut.tar created"
 	uut=$host2

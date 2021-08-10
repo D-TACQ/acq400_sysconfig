@@ -5,10 +5,10 @@ if [[ $# -lt 2 ]] ; then
     echo "	e.g. acq1001_079 acq420 [site1 site2 siteN]"
     echo "	e.g. acq2106_126 acq424 1 2 3 4 5"
     echo "	e.g. acq2106_126 WR acq424 1 2 3 4 5"
-    echo "	e.g. acq2106_126 WR=20M48 acq435 1 3 5"
+    echo "	e.g. acq2106_126 WR acq435 1 3 5"
     echo "FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING"
     echo "FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1"
-    echo "FOR custom sample rate run SR=40000 ./deploy_sysconfig acq2106_269 WR=20M48 acq435 1 3 5"
+    echo "FOR custom sample rate run SR=80000 ./deploy_sysconfig acq2106_269 WR acq435 1 3 5"
     echo "... nb if NOT DRYRUN, ACQ1014 will autodetect"
     echo "NB: does NOT handle mixed sites, go with the site1 module type, omit sites with other modules"
     exit 0
@@ -118,7 +118,12 @@ get_sr() {
 	acq423) 				sr=200000	  ;;
 	acq424) 						  ;;
 	ao424) 						sr=500000;;
-	acq430|acq435|acq435-16|acq436|acq437)	sr=43500	  ;;
+	acq430|acq435|acq435-16|acq436|acq437)
+		if [ "x$WR" != "x" ]; then
+			sr=40000
+		else
+			sr=43500
+		fi;;
 	acq480|acq482) 				sr=${WR:-20000000};;
 	*)
 		echo >&2  "WARNING: get_sr() mz $mz not specified return default $sr";;
@@ -315,8 +320,9 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 			template_rc.user
 
 		if [ "x$WR" != "x" ]; then
-			echo "# WR additions for WRCLK $WR"
-			echo "/usr/local/CARE/WR/set_clk_WR $WR"
+			### DEPRECATED. WR CLOCK SETUP HAS BEEN MOVED TO SYNC_ROLE ###
+			#echo "# WR additions for WRCLK $WR"
+			#echo "/usr/local/CARE/WR/set_clk_WR $WR"
 		fi
 	fi
 	) > STAGING/mnt/local/rc.user

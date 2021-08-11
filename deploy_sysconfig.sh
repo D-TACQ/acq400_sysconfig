@@ -320,6 +320,7 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 			template_rc.user
 
 		if [ "x$WR" != "x" ]; then
+			: # no op
 			### DEPRECATED. WR CLOCK SETUP HAS BEEN MOVED TO SYNC_ROLE ###
 			#echo "# WR additions for WRCLK $WR"
 			#echo "/usr/local/CARE/WR/set_clk_WR $WR"

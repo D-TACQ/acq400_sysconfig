@@ -320,10 +320,13 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 			template_rc.user
 
 		if [ "x$WR" != "x" ]; then
-			: # no op
+			#: # no op
 			### DEPRECATED. WR CLOCK SETUP HAS BEEN MOVED TO SYNC_ROLE ###
 			#echo "# WR additions for WRCLK $WR"
 			#echo "/usr/local/CARE/WR/set_clk_WR $WR"
+			### ADD Tune in by default
+			echo -e "\n# Tune WR clock phase"
+			echo -e "set.site 11 si5326_tune_phase 1\n"
 		fi
 	fi
 	) > STAGING/mnt/local/rc.user

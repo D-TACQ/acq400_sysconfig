@@ -98,6 +98,7 @@ get_nchan() {
 		acq480) nc=8;;
 		bolo8)	nc=24;;
                 dio432) nc=1;;
+ 		dio482td) nc=6;;
 		test)   nc=1;;
 		*)	echo ERROR: unknown module; exit 1;;
 		esac
@@ -226,6 +227,8 @@ case $mezz in
   trans_file="ao/ao42X_transient_odd_chan.init"
   cp ao/AO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
+"dio482td")
+ echo "dio482td .. do nothing";;
 "test")
   echo "test .. do nothing";;
 *)

@@ -1,3 +1,5 @@
-BLEN=0x10000
-NBUF=128
+BLEN=131072
+NBUF=256
+
+# BLEN*NBUF / (1 site of 430) = 1048576 samples
 

@@ -1,0 +1,3 @@
+PEERS=%SITELIST%
+KNOBS=clk,clkdiv,trg,event0,nacc,ACC,DEC,rgm,rtm_translen,acq465_filter,acq465_adc.init
+

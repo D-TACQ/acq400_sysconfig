@@ -98,6 +98,7 @@ get_nchan() {
 		acq435-16) nc=16;;
 		acq436) nc=24;;
                 acq437) nc=16;;
+		acq465) nc=32;;
 		acq480) nc=8;;
 		bolo8)	nc=24;;
                 dio432) nc=1;;
@@ -119,15 +120,16 @@ get_sr() {
 			ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
      			[ $? -eq 0 ] && sr=2000000
 		fi;;
-	acq423) 				sr=200000	  ;;
-	acq424) 						  ;;
-	ao424) 						sr=500000;;
+	acq423) sr=200000;;
+	acq424) ;;
+	ao424) sr=500000;;
 	acq430|acq435|acq435-16|acq436|acq437)
 		if [ "x$WR" != "x" ]; then
 			sr=40000
 		else
 			sr=43500
 		fi;;
+	acq465) sr=125000;;
 	acq480|acq482) 				sr=${WR:-20000000};;
 	*)
 		echo >&2  "WARNING: get_sr() mz $mz not specified return default $sr";;
@@ -192,6 +194,8 @@ case $mezz in
   trans_file="acq43X_transient.init" ;;
 "acq435-16")
   trans_file="acq435-16_transient.init" ;;
+"acq465")
+  trans_file="acq43X_transient.init";;
 "acq480")
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user
@@ -298,7 +302,7 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 	if [[ $mezz =~ "acq43" ]]; then
 		acq_sub="acq43x"
 		setp=$samp_rate
-	elif [[ $mezz =~ "acq42" ]]; then
+	elif [[ $mezz =~ "acq42" || $mezz =~ "acq465" ]]; then
 		acq_sub="acq42x"
 		setp=$samp_rate
 	elif [[ $mezz =~ "ao42" ]]; then

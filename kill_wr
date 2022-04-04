@@ -1,0 +1,6 @@
+# Remove WR support from UUT
+# "First shalt thou take out the Holy Pin. Then shalt thou count to three, no more, no less.
+# Three shall be the number thou shalt count, and the number of the counting shall be three"
+
+ssh root@$1 'rm /mnt/local/wr_cal /mnt/local/wrc.le.bin /mnt/local/sysconfig/wr.sh 2>/dev/null'
+

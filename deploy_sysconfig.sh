@@ -57,6 +57,9 @@ if [[ x$2 == xWR* ]]; then
 		echo WARNING: WR clock rate valid acq48x only, check wr.sh TICKNS
 	fi
 else
+	if [ $debug == 0 ]; then
+		./kill_wr $host
+	fi
 	mezz=$2
 fi
 shift;shift

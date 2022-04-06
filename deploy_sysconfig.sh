@@ -255,10 +255,8 @@ elif [ "$carr" = "1001" ] && [ $sitecount -gt 1 ]; then
 fi
 
 
-if [ "x$WR" != "x" ]; then
-	echo "STUBBED WHITE_RABBIT=1 .. should be automatic dep on FPGA personality"
-#	echo "WHITE_RABBIT=1" >> STAGING/mnt/local/sysconfig/acq400.sh
-	echo "enable ETH1_E1000X=y FLARE todo: make /mnt/local/network for eth1"
+if [ "$carr" = "2106" ]; then
+	echo "enable ETH1_E1000X=y; default on 2106"
 	echo "ETH1_E1000X=y" >> STAGING/mnt/local/sysconfig/acq400.sh
 fi
 

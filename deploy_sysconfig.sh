@@ -130,7 +130,8 @@ get_sr() {
 			sr=43500
 		fi;;
 	acq465) sr=125000;;
-	acq480|acq482) 				sr=${WR:-20000000};;
+	acq480|acq482)	sr=${WR:-20000000};;
+	test) sr=40000000;;
 	*)
 		echo >&2  "WARNING: get_sr() mz $mz not specified return default $sr";;
 	esac
@@ -309,6 +310,8 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 	elif [[ $mezz =~ "acq48" ]]; then
 		acq_sub="acq480"
 		setp=$samp_rate
+	elif [[ $mezz == "test" ]]; then
+                setp="40M"
 	fi
 	if [ $carr == "2106" ]; then
 		setp=$samp_rate
@@ -341,7 +344,10 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 else
 	echo "DEBUG using custom rc.user"
 fi
+
 [ "x$WR" != "x" ] && cp -r WR/local/* STAGING/mnt/local
+
+if [[ $mezz == "test" ]]; then sed -i "s/\/usr.*.init//" STAGING/mnt/local/rc.user;fi
 
 staging=STAGING
 [ -e STAGING2 ] && staging="$staging STAGING2"

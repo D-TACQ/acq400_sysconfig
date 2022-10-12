@@ -99,6 +99,7 @@ get_nchan() {
 		acq436) nc=24;;
                 acq437) nc=16;;
 		acq465) nc=32;;
+		acq465-16) nc=32;;
 		acq480) nc=8;;
 		bolo8)	nc=24;;
                 dio432) nc=1;;
@@ -129,7 +130,8 @@ get_sr() {
 		else
 			sr=43500
 		fi;;
-	acq465) sr=125000;;
+	acq465) sr=62500;;
+	acq465-16) sr=1000000;;
 	acq480|acq482)	sr=${WR:-20000000};;
 	test) sr=40000000;;
 	*)
@@ -197,6 +199,8 @@ case $mezz in
   trans_file="acq435-16_transient.init" ;;
 "acq465")
   trans_file="acq43X_transient.init";;
+"acq465-16")
+  trans_file="acq42X_transient.init";;
 "acq480")
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user

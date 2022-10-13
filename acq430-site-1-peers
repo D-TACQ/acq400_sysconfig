@@ -1,2 +1,3 @@
 PEERS=%SITELIST%
-KNOBS=clkdiv,trg,event0,hi_res_mode,nacc,rgm,rtm_translen
+KNOBS=clkdiv,trg,event0,hi_res_mode,nacc,rgm,rtm_translen,data32
+

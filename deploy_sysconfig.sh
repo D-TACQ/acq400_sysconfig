@@ -1,19 +1,23 @@
 #!/bin/bash
 
 if [[ $# -lt 2 ]] ; then
-    echo "Enter Carrier followed by Mezzanine"
-    echo "	e.g. acq1001_079 acq420 [site1 site2 siteN]"
-    echo "	e.g. acq2106_126 acq424 1 2 3 4 5"
-    echo "	e.g. acq2106_126 WR acq424 1 2 3 4 5"
-    echo "	e.g. acq2106_126 WR acq435 1 3 5"
-    echo "For non-default NCHAN, enter acq4xx-NC eg acq465-16"
-    echo "For non-default NBITS, enter acq4xx-Bn eg acq165-B16"
-    echo "For specific module eg acq425-16-1000-18, be specific : module-NC-FS-BN"
-    echo "FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING"
-    echo "FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1"
-    echo "FOR custom sample rate run SR=80000 ./deploy_sysconfig acq2106_269 WR acq435 1 3 5"
-    echo "... nb if NOT DRYRUN, ACQ1014 will autodetect"
-    echo "NB: does NOT handle mixed sites, go with the site1 module type, omit sites with other modules"
+    cat - <<EOF
+Enter Carrier followed by Mezzanine
+	e.g. acq1001_079 acq420 [site1 site2 siteN]
+    	e.g. acq2106_126 acq424 1 2 3 4 5
+    	e.g. acq2106_126 WR acq424 1 2 3 4 5
+    	e.g. acq2106_126 WR acq435 1 3 5
+
+Module with non-default NCHAN, enter acq4xx-NC eg acq465-16
+Module with non-default NBITS, enter acq4xx-Bbits eg acq165-B16 # nb: runtime variant, NOT build variant!
+For specific module be specific : module-NC-FS-Bbits eg acq425-16-1000-18
+
+FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING
+FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1
+FOR custom sample rate run SR=80000 ./deploy_sysconfig acq2106_269 WR acq435 1 3 5
+    ... nb if NOT DRYRUN, ACQ1014 will autodetect
+NB: does NOT handle mixed sites, go with the site1 module type, omit sites with other modules
+EOF
     exit 0
 fi
 

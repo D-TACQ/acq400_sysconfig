@@ -216,7 +216,7 @@ acq465*)
   	trans_file="acq42X_transient.init"
 	cp acq400_sh_acq465B16 STAGING/mnt/local/sysconfig/acq400.sh
   fi;;
-acq480)
+acq48*)
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user
 	cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh

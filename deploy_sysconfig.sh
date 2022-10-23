@@ -6,6 +6,8 @@ if [[ $# -lt 2 ]] ; then
     echo "	e.g. acq2106_126 acq424 1 2 3 4 5"
     echo "	e.g. acq2106_126 WR acq424 1 2 3 4 5"
     echo "	e.g. acq2106_126 WR acq435 1 3 5"
+    echo "For non-default NCHAN, enter acq4xx-NC eg acq465-16"
+    echo "For non-default NBITS, enter acq4xx-Bn eg acq165-B16"
     echo "FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING"
     echo "FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1"
     echo "FOR custom sample rate run SR=80000 ./deploy_sysconfig acq2106_269 WR acq435 1 3 5"
@@ -82,7 +84,6 @@ get_nchan() {
 	mz=$1
 	nc=${mz#*-}
 	if [ $mz == $nc ]; then
-
 		case $mz in
 		acq420) nc=4;;
 		ao420) nc=4;;
@@ -127,8 +128,12 @@ get_sr() {
 		else
 			sr=43500
 		fi;;
-	acq465) sr=62500;;
-	acq465-16) sr=1000000;;
+	acq465*)
+	       	if [ "$mz" = "${mz%-B16}" ]; then	
+			sr=62500
+		else
+			sr=1000000
+		fi;;
 	acq480|acq482)	sr=${WR:-20000000};;
 	test) sr=40000000;;
 	*)
@@ -194,10 +199,13 @@ case $mezz in
   trans_file="acq43X_transient.init" ;;
 "acq435-16")
   trans_file="acq435-16_transient.init" ;;
-"acq465")
-  trans_file="acq43X_transient.init";;
-"acq465-16")
-  trans_file="acq42X_transient.init";;
+acq465*)
+  if [ "$mezz" = "${mezz%-B16}" ]; then
+	trans_file="acq43X_transient.init"
+  else
+  	trans_file="acq42X_transient.init"
+	cp acq400_sh_acq465B16 STAGING/mnt/local/sysconfig/acq400.sh
+  fi;;
 "acq480")
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user

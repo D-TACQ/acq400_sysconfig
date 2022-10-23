@@ -91,15 +91,12 @@ get_nchan() {
 		ao424-16) nc=16;;
 		acq423) nc=32;;
 		acq425) nc=16;;
-		acq425-18) nc=16;;
 		acq427) nc=8;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
-		acq435-16) nc=16;;
 		acq436) nc=24;;
                 acq437) nc=16;;
 		acq465) nc=32;;
-		acq465-16) nc=32;;
 		acq480) nc=8;;
 		bolo8)	nc=24;;
                 dio432) nc=1;;

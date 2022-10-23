@@ -175,29 +175,29 @@ cp acq400_sh_default STAGING/mnt/local/sysconfig/acq400.sh
 trans_file="none"
 
 case $mezz in
-"acq423")
+acq423)
  [ $NCHAN -ge 128 ] && set_long_buffers
  trans_file="acq42X_transient.init" ;;
-"acq420"|"acq427")
+acq420|acq427)
   trans_file="acq42X_transient.init" ;;
-"acq425"|"acq424")
+acq425|acq424)
   trans_file="acq42X_transient.init"
   [ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
   [ $sitecount -ge 2 ] && set_long_buffers
   ;;
-"acq425-18")
+acq425-18)
   trans_file="acq43X_transient.init"
   [ $sitecount -gt 2 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
   ;;
-"acq430")
+acq430)
   trans_file="acq43X_transient.init"
   cp acq430_epics.sh STAGING/mnt/local/sysconfig/epics.sh
   cp acq430_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
-"acq435"|"acq436"|"acq437")
+acq435|acq436|acq437)
   [ $NCHAN -gt 144 ] && set_long_buffers
   trans_file="acq43X_transient.init" ;;
-"acq435-16")
+acq435-16)
   trans_file="acq435-16_transient.init" ;;
 acq465*)
   if [ "$mezz" = "${mezz%-B16}" ]; then
@@ -206,7 +206,7 @@ acq465*)
   	trans_file="acq42X_transient.init"
 	cp acq400_sh_acq465B16 STAGING/mnt/local/sysconfig/acq400.sh
   fi;;
-"acq480")
+acq480)
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user
 	cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
@@ -223,7 +223,7 @@ acq465*)
 		fi
         fi
   ;;
-"bolo8")
+bolo8)
   trans_file="bolo8_transient.init"
   cp bolo8/bolo8_rc.user STAGING/mnt/local/rc.user
   cp bolo8/postshot STAGING/mnt/local/
@@ -231,22 +231,22 @@ acq465*)
   cp bolo8/bolo.sh STAGING/mnt/local/sysconfig/
   cp bolo8/acq400.sh STAGING/mnt/local/sysconfig/
   ;;
-"dio432")
+dio432)
   trans_file="acq43X_transient.init"
   cp dio432_rc.user STAGING/mnt/local/rc.user
   cp DO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
-"ao420"|"ao424")
+ao420|ao424)
   trans_file="ao/ao42X_transient.init"
   cp ao/AO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
-"ao424-16")
+ao424-16)
   trans_file="ao/ao42X_transient_odd_chan.init"
   cp ao/AO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
-"dio482td")
+dio482td)
  echo "dio482td .. do nothing";;
-"test")
+test)
   echo "test .. do nothing";;
 *)
   echo -e "\nInvalid mezzanine specified!!!\n"

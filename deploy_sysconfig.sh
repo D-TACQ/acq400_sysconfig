@@ -8,9 +8,15 @@ Enter Carrier followed by Mezzanine
     	e.g. acq2106_126 WR acq424 1 2 3 4 5
     	e.g. acq2106_126 WR acq435 1 3 5
 
-Module with non-default NCHAN, enter acq4xx-NC eg acq465-16
-Module with non-default NBITS, enter acq4xx-Bbits eg acq165-B16 # nb: runtime variant, NOT build variant!
-For specific module be specific : module-NC-FS-Bbits eg acq425-16-1000-18
+Default names eg acq424 are allowed for default cases. (most of the time)
+
+For specific module be specific : module-NC-FS-Bbits 
+	e.g. acq425-16-2000-16
+	e.g. acq425-16-1000-18
+For Module with non-default NCHAN, enter acq4xx-NC 
+  	e.g. acq435-16
+For Module with non-default NBITS, enter acq4xx-Bbits 
+        e.g. acqr465-B16 # nb: runtime variant, NOT build variant!
 
 FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING
 FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1
@@ -117,32 +123,35 @@ get_sr() {
 	mz=$1
 	sr=1000000
 
-	case $mz in
-	acq420|acq425|acq425-18|acq427)
-		if [ $debug == 0 ]; then
-			ssh root@$host '/usr/local/bin/get.site 1 PART_NUM' | grep -q M=A
-     			[ $? -eq 0 ] && sr=2000000
-		fi;;
-	acq423) sr=200000;;
-	acq424) ;;
-	ao424) sr=500000;;
-	acq430|acq435|acq435-16|acq436|acq437)
-		if [ "x$WR" != "x" ]; then
-			sr=40000
-		else
-			sr=43500
-		fi;;
-	acq465*)
-	       	if [ "$mz" = "${mz%-B16}" ]; then	
-			sr=62500
-		else
-			sr=1000000
-		fi;;
-	acq480|acq482)	sr=${WR:-20000000};;
-	test) sr=40000000;;
-	*)
-		echo >&2  "WARNING: get_sr() mz $mz not specified return default $sr";;
-	esac
+	model_sr=$(echo $mz | awk -F- '{ print $3 }')
+	if [ $model_sr -gt 1000 ]; then
+		sr="${model_sr}k"    
+		echo >&2 "DEBUG: picking SR from model $mz value:$sr"
+	else
+
+		case $mz in
+		acq420|acq424|acq425*|acq427)
+			;;
+		acq423) sr=200000;;
+		ao424) sr=500000;;
+		acq430|acq435|acq435-16|acq436|acq437)
+			if [ "x$WR" != "x" ]; then
+				sr=40000
+			else
+				sr=43500
+			fi;;
+		acq465*)
+		       	if [ "$mz" = "${mz%-B16}" ]; then	
+				sr=62500
+			else
+				sr=1000000
+			fi;;
+		acq48*)	sr=${WR:-20000000};;
+		test) sr=40000000;;
+		*)
+			echo >&2  "WARNING: get_sr() mz $mz not specified return default $sr";;
+		esac
+	fi
 	echo $sr
 }
 

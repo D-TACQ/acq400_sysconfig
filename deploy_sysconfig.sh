@@ -8,6 +8,7 @@ if [[ $# -lt 2 ]] ; then
     echo "	e.g. acq2106_126 WR acq435 1 3 5"
     echo "For non-default NCHAN, enter acq4xx-NC eg acq465-16"
     echo "For non-default NBITS, enter acq4xx-Bn eg acq165-B16"
+    echo "For specific module eg acq425-16-1000-18, be specific : module-NC-FS-BN"
     echo "FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING"
     echo "FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1"
     echo "FOR custom sample rate run SR=80000 ./deploy_sysconfig acq2106_269 WR acq435 1 3 5"
@@ -82,14 +83,13 @@ echo STAGING is a place to build a local copy of the remote image
 
 get_nchan() {
 	mz=$1
-	nc=${mz#*-}
-	if [ $mz == $nc ]; then
+	nc=$(echo $mezz | awk -F- '{print $2}')
+	if [ -z $nc ]; then
 		case $mz in
 		acq420) nc=4;;
 		ao420) nc=4;;
 		acq424) nc=32;;
 		ao424) nc=32;;
-		ao424-16) nc=16;;
 		acq423) nc=32;;
 		acq425) nc=16;;
 		acq427) nc=8;;
@@ -180,15 +180,21 @@ acq423)
  trans_file="acq42X_transient.init" ;;
 acq420|acq427)
   trans_file="acq42X_transient.init" ;;
-acq425|acq424)
+acq424)
   trans_file="acq42X_transient.init"
   [ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
   [ $sitecount -ge 2 ] && set_long_buffers
   ;;
-acq425-18)
-  trans_file="acq43X_transient.init"
-  [ $sitecount -gt 2 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
-  ;;
+acq425*)
+	B18=$(echo $mezz | awk -F- '{print $4}')
+	if [ "x$B18" = "x18" ]; then
+		trans_file="acq43X_transient.init"
+  		[ $sitecount -gt 2 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
+	else
+		trans_file="acq42X_transient.init"
+		[ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
+		[ $sitecount -ge 2 ] && set_long_buffers
+	fi;;
 acq430)
   trans_file="acq43X_transient.init"
   cp acq430_epics.sh STAGING/mnt/local/sysconfig/epics.sh

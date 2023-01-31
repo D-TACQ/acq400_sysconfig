@@ -7,6 +7,7 @@ Enter Carrier followed by Mezzanine
     	e.g. acq2106_126 acq424 1 2 3 4 5
     	e.g. acq2106_126 WR acq424 1 2 3 4 5
     	e.g. acq2106_126 WR acq435 1 3 5
+        e.g. acq2206_001 WR acq482 1 2 3 4 5 6
 
 Default names eg acq424 are allowed for default cases. (most of the time)
 
@@ -30,6 +31,13 @@ fi
 #incant="$0 $*"
 host=$1
 carr=${host:3:4}
+
+case $carr in
+2106|2206)
+   is_2x06=1;;
+*)
+   is_2x06=0;;
+esac
 
 debug=${DRYRUN:-0}
 custom_sr=${SR:-0}
@@ -275,7 +283,7 @@ test)
 esac
 
 echo PGMWASHERE $carr $sitecount
-if [ "$carr" = "2106" ] && [ $sitecount -gt 3 ]; then
+if [ $is_2x06 -eq 1 ] && [ $sitecount -gt 3 ]; then
 	echo "carrier:$carr sitecount:$sitecount FANSPEED=100"
 	echo "FANSPEED=100" >> STAGING/mnt/local/sysconfig/acq400.sh
 elif [ "$carr" = "1001" ] && [ $sitecount -gt 1 ]; then
@@ -284,7 +292,7 @@ elif [ "$carr" = "1001" ] && [ $sitecount -gt 1 ]; then
 fi
 
 
-if [ "$carr" = "2106" ]; then
+if [ $is_2x06 -eq 1 ]; then
 	echo "enable ETH1_E1000X=y; default on 2106"
 	echo "ETH1_E1000X=y" >> STAGING/mnt/local/sysconfig/acq400.sh
 fi
@@ -341,7 +349,7 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 	elif [[ $mezz == "test" ]]; then
                 setp="40M"
 	fi
-	if [ $carr == "2106" ]; then
+	if [ $is_2x06 -eq 1 ]; then
 		setp=$samp_rate
 	fi
 	if [ -z $setp ]; then

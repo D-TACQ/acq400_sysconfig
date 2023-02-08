@@ -132,7 +132,7 @@ get_sr() {
 	sr=1000000
 
 	model_sr=$(echo $mz | awk -F- '{ print $3 }')
-	if [ $model_sr -gt 1000 ]; then
+	if [[ ! -z $model_sr && $model_sr -gt 1000 ]]; then
 		sr="${model_sr}k"    
 		echo >&2 "DEBUG: picking SR from model $mz value:$sr"
 	else

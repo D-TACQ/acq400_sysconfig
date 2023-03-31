@@ -385,6 +385,9 @@ fi
 
 if [[ $mezz == "test" ]]; then sed -i "s/\/usr.*.init//" STAGING/mnt/local/rc.user;fi
 
+### For ACQ43X images always include the 4210 enable line ###
+if [[ $mezz =~ "acq43" ]]; then echo '' >> STAGING/mnt/local/rc.user;fi
+
 staging=STAGING
 [ -e STAGING2 ] && staging="$staging STAGING2"
 

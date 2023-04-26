@@ -385,8 +385,23 @@ fi
 
 if [[ $mezz == "test" ]]; then sed -i "s/\/usr.*.init//" STAGING/mnt/local/rc.user;fi
 
-### For ACQ43X images always include the 4210 enable line ###
-if [[ $mezz =~ "acq43" ]]; then echo '' >> STAGING/mnt/local/rc.user;fi
+
+# for known slow ADC, enable port 4210 stream by default.
+enable_4210_stream=0
+
+case $mezz in
+acq43*)
+	enable_4210_stream=1;;
+acq423)
+	[ $sitecount -le 3 ] && enable_4210_stream=1;;
+acq42*)
+	[ $sitecount -eq 1 ] && enable_4210_stream=1;;
+esac
+if [ $enable_4210_stream -eq 1 ]; then
+	echo enable port 4210 stream..
+	echo >> STAGING/mnt/local/rc.user '# enable port 4210 stream'
+	echo >> STAGING/mnt/local/rc.user echo "STREAM_OPTS= >> /etc/sysconfig/acq400_streamd.conf"
+fi
 
 staging=STAGING
 [ -e STAGING2 ] && staging="$staging STAGING2"

@@ -17,7 +17,7 @@ For specific module be specific : module-NC-FS-Bbits
 For Module with non-default NCHAN, enter acq4xx-NC 
   	e.g. acq435-16
 For Module with non-default NBITS, enter acq4xx-Bbits 
-        e.g. acqr465-B16 # nb: runtime variant, NOT build variant!
+        e.g. acq465-B16 # nb: runtime variant, NOT build variant!
 
 FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING
 FOR ACQ1014 run ACQ1014=1 ./deploy_sysconfig acq1001_LEFT acq480 .. assumes acq1001_RIGHT is +1
@@ -396,10 +396,12 @@ acq423)
 	[ $sitecount -le 3 ] && enable_4210_stream=1;;
 acq42*)
 	[ $sitecount -eq 1 ] && enable_4210_stream=1;;
+acq465)
+	[ "$mz" = "${mz%-B16}" ] && enable_4210_stream=1;;
 esac
 if [ $enable_4210_stream -eq 1 ]; then
 	echo enable port 4210 stream..
-	echo >> STAGING/mnt/local/rc.user '# enable port 4210 stream'
+	echo -e >> STAGING/mnt/local/rc.user '\n# enable port 4210 stream'
 	echo >> STAGING/mnt/local/rc.user echo "STREAM_OPTS= >> /etc/sysconfig/acq400_streamd.conf"
 fi
 

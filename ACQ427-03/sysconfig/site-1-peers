@@ -1,0 +1,4 @@
+PEERS=1
+KNOBS=clkdiv,trg,event0,rgm,rtm_translen
+
+

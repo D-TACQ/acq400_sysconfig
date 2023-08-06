@@ -14,6 +14,7 @@ Default names eg acq424 are allowed for default cases. (most of the time)
 For specific module be specific : module-NC-FS-Bbits 
 	e.g. acq425-16-2000-16
 	e.g. acq425-16-1000-18
+        e.g. acq427-03-2000-16
 For Module with non-default NCHAN, enter acq4xx-NC 
   	e.g. acq435-16
 For Module with non-default NBITS, enter acq4xx-Bbits 
@@ -110,7 +111,7 @@ get_nchan() {
 		ao424) nc=32;;
 		acq423) nc=32;;
 		acq425) nc=16;;
-		acq427) nc=8;;
+		acq427|acq427-03*) nc=8;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
 		acq436) nc=24;;
@@ -138,7 +139,7 @@ get_sr() {
 	else
 
 		case $mz in
-		acq420|acq424|acq425*|acq427)
+		acq420|acq424|acq425*|acq427*)
 			;;
 		acq423) sr=200000;;
 		ao424) sr=500000;;
@@ -201,6 +202,15 @@ acq423)
  trans_file="acq42X_transient.init" ;;
 acq420|acq427)
   trans_file="acq42X_transient.init" ;;
+acq427-03*)
+  cp -a ACQ427-03/* STAGING/mnt/local
+  mezza=($(echo $mezz | tr \- \  ))
+  case ${mezza[2]} in
+  2000)
+	;;
+  *)
+ 	sed -ie s/2000000/1000000/ STAGING/mnt/local/rc.user;;
+  esac;;
 acq424)
   trans_file="acq42X_transient.init"
   [ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh

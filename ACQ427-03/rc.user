@@ -1,0 +1,10 @@
+# DEFAULT init for acq427, 2000000 Hz, auto soft trigger
+#
+/usr/local/CARE/acq1001\+acq42x.init
+# Local clock and soft trigger
+set.site 0 sync_role master 2000000
+# Alternate front panel clock and front panel trigger
+#set.site 0 sync_role fpmaster 2000000 1000000
+
+# For other combinations try 'set.site 0 sync_role help'
+echo STREAM_OPTS= >> /etc/sysconfig/acq400_streamd.conf

@@ -1,4 +1,4 @@
 PEERS=%SITELIST%
-KNOBS=clkdiv,trg,event0,rgm,rtm_translen
+KNOBS=clkdiv,trg,event0,rgm,rtm_translen,sync_trg_to_clk
 
 

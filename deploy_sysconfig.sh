@@ -31,6 +31,11 @@ fi
 
 #incant="$0 $*"
 host=$1
+
+if [ "${host:0:4}" = "z7io" ]; then
+	echo use deploy_z7io_sysconfig.sh
+	exit 1
+fi
 carr=${host:3:4}
 
 case $carr in

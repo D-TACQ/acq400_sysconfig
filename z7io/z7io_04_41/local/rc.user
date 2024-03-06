@@ -1,0 +1,33 @@
+#!/bin/sh
+
+echo /mnt/local/rc.user  01
+
+# for long transient, comment out both judgement and burst_mode_live_scope in both rc.user and sysconfig/epics.sh
+
+judgement() {
+# short trace length, rapid update 50Hz possible
+set.site 1 RTM_TRANSLEN ${1:-128}
+set.site 1 RGM RTM
+set.site 1 RGM:DX ${2:-d0}
+set.site 1 RGM:SENSE rising
+}
+# comment out to clear judgement settings, also see /mnt/local/sysconfig/epics.sh
+# for soft trigger control
+source /mnt/local/sysconfig/acq400.sh
+[ ! -z "$ACQ400_JUDGEMENT" ] && judgement $ACQ400_JUDGEMENT
+
+
+# route TRG.d0 from Front Panel or Back Plane
+#set.site 0 SIG:SRC:TRG:0 BP
+set.site 0 SIG:SRC:TRG:0 FP
+
+caput $(hostname):1:INTCLK_HZ 1000000
+
+# for demo we use soft trigger, local clock, AWG 500kSPS
+set.site 1 trg=1,1,1
+set.site 2 trg=1,1,1
+set.site 2 clkdiv=128
+
+echo /mnt/local/rc.user  99
+
+

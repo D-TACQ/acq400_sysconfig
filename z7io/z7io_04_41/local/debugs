@@ -1,0 +1,7 @@
+EN=+p
+[ "x$1" = "x0" ] && EN=-p
+echo 9 > /proc/sys/kernel/printk
+echo 1 > /sys/module/acq420fmc/parameters/xo_verbose
+echo file xo_workers.c func xo_data_loop $EN > /dev/ddc
+
+

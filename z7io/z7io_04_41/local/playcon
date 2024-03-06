@@ -1,0 +1,19 @@
+set.site 1 trg=1,1,1
+set.site 2 trg=1,1,1
+set.site 2 clkdiv=128
+
+ONESHOT_REARM=54202
+CONTINUOUS=54205
+
+AWG_MODE=$CONTINUOUS
+AWG_WF=${1:-/mnt/local/AWG/2M.dat}
+
+load_wf() {
+	FS=$(stat -c %s $1)
+	set.site 0 dist_bufferlen_play $((FS/4))
+	echo nc localhost $AWG_MODE FS:$FS dist_bufferlen_play $((FS/4))
+	nc localhost $AWG_MODE <$1
+
+}
+
+load_wf $AWG_WF

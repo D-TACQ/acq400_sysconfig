@@ -1,0 +1,24 @@
+set.site 1 trg=1,1,1
+set.site 2 trg=1,1,1
+set.site 2 clkdiv=128
+
+ONESHOT_REARM=54202
+CONTINUOUS=54205
+
+AWG_MODE=${AWG_MODE:-$ONESHOT_REARM}
+AWG_WF=${1:-/mnt/local/AWG/32CH_0V1_8192_POFFSET_64CYCLES.dat}
+
+load_wf() {
+	bl_mem=$(cat /sys/module/acq420fmc/parameters/bufferlen)
+        awg_len=$(stat -c %s $1)
+	if [ $bl_mem -eq $awg_len ]; then
+		set.site 0 dist_bufferlen_play 0
+	else
+		set.site 0 dist_bufferlen_play $awg_len
+	fi
+	echo nc localhost $AWG_MODE 
+	nc localhost $AWG_MODE <$1
+
+}
+
+load_wf $AWG_WF

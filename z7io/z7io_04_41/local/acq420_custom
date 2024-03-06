@@ -1,0 +1,7 @@
+DRVR_CUSTOM="default_dma_direction=1
+xo_use_distributor=1
+xo_use_bigbuf=1 dio432_rowback=0 measure_ao_fifo_ok=0 
+distributor_first_buffer=100
+AXI_BUFFER_COUNT=100 DMA_TIMEOUT=2147483647 
+reserve_buffers=0 distributor_segment_offset=50 max_seg=E"
+

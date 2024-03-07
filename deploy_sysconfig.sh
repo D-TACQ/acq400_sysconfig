@@ -48,7 +48,10 @@ esac
 debug=${DRYRUN:-0}
 custom_sr=${SR:-0}
 
-if [[ $custom_sr -ne 0 ]]; then
+if [[ $custom_sr = *"M"* ]]; then # Preclude e.g. 10M setting in custom_sr
+	echo -e "\e[91mERROR! SR must not include chars\e[0m"
+	exit 0
+elif [[ $custom_sr -ne 0 ]]; then
 	incant="SR=$custom_sr $0 $*"
 else
 	incant="$0 $*"
@@ -69,6 +72,10 @@ if [ $ACQ1014 == 1 ]; then
 fi
 
 if [[ x$2 == xWR* ]]; then
+	if [[ $custom_sr -ne 0 ]]; then
+		echo -e "\e[91mERROR! When setting custom SR with WR, use WR=XXM notation, e.g. WR=10M\e[0m"
+		exit 0
+	fi
 	wrclk=${2#*=}
 	if [ $wrclk != $2 ]; then
 		WR=$wrclk

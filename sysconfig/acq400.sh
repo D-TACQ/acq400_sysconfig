@@ -14,7 +14,12 @@ REBOOT_KNOB=y
 # ETH1000LX - connect to SFPD (MGT482 systems only)
 #ETH1_E1000X=y
 
-
-
+# Rapid Scope, 256 points, external trigger to 50Hz
+#ACQ400_JUDGEMENT="256 d0"
+# Rapid Scope, 256 points, internal trigger to 50Hz
+#ACQ400_JUDGEMENT="256 d1"
+# Rapid Scope, 1024 points, internal trigger to 10Hz
+#ACQ400_JUDGEMENT="1024 d1"
+# for normal streaming, leave all JUDGEMENT commented out
 
 

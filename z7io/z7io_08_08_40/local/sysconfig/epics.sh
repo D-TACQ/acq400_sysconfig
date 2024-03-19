@@ -16,9 +16,6 @@ if [ $? -eq 0 ]; then
 	fi
 fi
 
-# use if dubious ES
-export acq400Judgement_STUB_ES=1
-set.site 1 es_enable 0
 
 judgement() {
 # short trace length, rapid update 50Hz possible
@@ -32,6 +29,13 @@ export BURSTS_PER_BUFFER=${3:-1}
 export RTM_BUFFER_MON=y
 export RTM_BUFFER_MON_VERBOSE=1
 export acq400_Judgement_FIRST_SAM=4
+
+# use if dubious ES
+#export acq400Judgement_STUB_ES=1
+#set.site 1 es_enable 0
+# normal service
+set.site 1 es_enable 1
+
 }
 source /mnt/local/sysconfig/acq400.sh
 [ ! -z "$ACQ400_JUDGEMENT" ] && judgement $ACQ400_JUDGEMENT

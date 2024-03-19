@@ -2,9 +2,10 @@
 
 echo /mnt/local/rc.user  01
 
-echo stubbed: /mnt/local/z7io+acq480.init
-/mnt/local/z7io+acq480.init
-#/usr/local/CARE/z7io\+acq480.init
+modinit=/usr/local/CARE/z7io\+acq480.init
+[ -e /mnt/local/z7io+acq480.init ] && modinit=/mnt/local/z7io+acq480.init
+echo modinit $modinit
+$modinit
 
 (
 cd /usr/local/DESY_CLK
@@ -29,13 +30,9 @@ set.site 1 RGM:SENSE rising
 source /mnt/local/sysconfig/acq400.sh
 [ ! -z "$ACQ400_JUDGEMENT" ] && judgement $ACQ400_JUDGEMENT
 
-
 # route TRG.d0 from Front Panel or Back Plane
 #set.site 0 SIG:SRC:TRG:0 BP
 set.site 0 SIG:SRC:TRG:0 FP
-
-# start trigger, make it a hard trigger
-set.site 1 TRG:DX d0
 
 # INTCLK is not used, redundant
 caput $(hostname):1:INTCLK_HZ 1000000

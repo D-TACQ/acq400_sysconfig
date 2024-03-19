@@ -1,0 +1,43 @@
+#!/bin/sh
+
+echo /mnt/local/rc.user  01
+
+echo stubbed: /mnt/local/z7io+acq480.init
+/mnt/local/z7io+acq480.init
+#/usr/local/CARE/z7io\+acq480.init
+
+(
+cd /usr/local/DESY_CLK
+PLAN=/usr/local/CARE/Z7IO_PLANS/Si5340-RevD-out0_40MHz_out1_40MHz_out2_200MHz-RTM_PLL-Registers.txt
+./si-labs-clk-config.py 0x77 $PLAN
+)
+
+
+# for long transient, comment out both judgement and burst_mode_live_scope in both rc.user and sysconfig/epics.sh
+
+judgement() {
+# short trace length, rapid update 50Hz possible
+set.site 1 RTM_TRANSLEN ${1:-128}
+set.site 1 RGM RTM
+set.site 1 RGM:DX ${2:-d0}
+set.site 1 RGM:SENSE rising
+}
+# comment out to clear judgement settings, also see /mnt/local/sysconfig/epics.sh
+# for soft trigger control
+source /mnt/local/sysconfig/acq400.sh
+[ ! -z "$ACQ400_JUDGEMENT" ] && judgement $ACQ400_JUDGEMENT
+
+
+# route TRG.d0 from Front Panel or Back Plane
+#set.site 0 SIG:SRC:TRG:0 BP
+set.site 0 SIG:SRC:TRG:0 FP
+
+# start trigger, make it a hard trigger
+set.site 1 TRG:DX d0
+
+# INTCLK is not used, redundant
+caput $(hostname):1:INTCLK_HZ 1000000
+
+echo /mnt/local/rc.user  99
+
+

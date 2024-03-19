@@ -1,0 +1,15 @@
+REBOOT_KNOB=y
+BLEN=4194304
+NBUF=128
+#BLEN=1048576
+#NBUF=512
+# scaled rate status for CONTINUOUS OPI
+#STREAM_OPTS=--fill-scale
+#STREAM_OPTS=--null-copy
+STREAM_OPTS=--full-copy
+
+
+ACQ400_JUDGEMENT="256 d0"
+
+FANSPEED=100
+

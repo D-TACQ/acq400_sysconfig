@@ -23,7 +23,9 @@ if [ "${host:0:4}" != "z7io" ]; then
 	exit 1
 fi
 
+incant="$*"
 shift
+mezz="$*"
 signature="./z7io/z7io"
 for ax in $*; do
 	signature="${signature}_$ax"
@@ -34,9 +36,35 @@ if [ ! -d $signature/local ]; then
 	exit 1
 fi
 
+
+if [ ! -z "$(git status --porcelain)" ]; then
+        echo -e "\e[91mWARNING: git is not clean, make it a DRYRUN\e[0m"
+	DRYRUN=1
+fi
+
+echo "CLEANUP rm STAGING"
+rm -Rf STAGING STAGING2
+mkdir -p STAGING/mnt/local/cal
+echo STAGING is a place to build a local copy of the remote image
+
 echo SIGNATURE $signature/local exists
-[ $DRYRUN -ne 0 ] && echo DRYRUN scp -r $signature/local/* root@$host:/mnt/local
-[ $DRYRUN -eq 0 ] && scp -r $signature/local/* root@$host:/mnt/local
+cp -r $signature/local/* STAGING/mnt/local
+
+mkdir -p ARCHIVE
+uut=$host
+staging=STAGING
+
+for st in $staging; do
+        githash=$(git rev-parse HEAD)
+        user="${USER}@$(hostname)"
+        sed -i -e "2i#\n# created by deploy_sysconfig for uut:$uut mezz:$mezz\n# by ${user} on $(date)\n# git $githash\n# incant $incant\n" $st/mnt/local/rc.user
+        tar cvf ARCHIVE/$uut.tar -C $st .
+        echo "INFO ARCHIVE/$uut.tar created"
+	break
+done
+
+
+[ $DRYRUN -eq 0 ] && scp -r $staging/mnt/local/* root@$host:/mnt/local
 
 
 

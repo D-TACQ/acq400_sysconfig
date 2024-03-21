@@ -24,11 +24,9 @@ export SIZE=${1:-128}
 # round to the nearest 10
 export SIZE=$((${SIZE%[123456789]*}*10))
 export IOC_PREINIT=./scripts/load.judgement
-export acq400_Judgement_FIRST_SAM=1
 export BURSTS_PER_BUFFER=${3:-1}
 export RTM_BUFFER_MON=y
 export RTM_BUFFER_MON_VERBOSE=1
-export acq400_Judgement_FIRST_SAM=4
 
 # use if dubious ES
 #export acq400Judgement_STUB_ES=1

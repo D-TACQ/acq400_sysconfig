@@ -22,7 +22,6 @@ judgement() {
 # $1:size, $2:dX (don't care) $3:BPB
 export SIZE=${1:-128}
 export IOC_PREINIT=./scripts/load.judgement
-export acq400_Judgement_FIRST_SAM=1
 export BURSTS_PER_BUFFER=${3:-1}
 export RTM_BUFFER_MON=y
 export RTM_BUFFER_MON_VERBOSE=1

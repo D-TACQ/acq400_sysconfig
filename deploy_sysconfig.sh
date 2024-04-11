@@ -314,7 +314,7 @@ fi
 
 if [ $is_2x06 -eq 1 ]; then
 	echo "enable ETH1_E1000X=y; default on 2106"
-	echo "ETH1_E1000X=y" >> STAGING/mnt/local/sysconfig/acq400.sh
+	sed -i s/#ETH1_E1000X/ETH1_E1000X/ STAGING/mnt/local/sysconfig/acq400.sh
 fi
 
 echo "DEBUG trans_file $trans_file MODNAME $MODNAME"

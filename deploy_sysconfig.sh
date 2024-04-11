@@ -11,13 +11,13 @@ Enter Carrier followed by Mezzanine
 
 Default names eg acq424 are allowed for default cases. (most of the time)
 
-For specific module be specific : module-NC-FS-Bbits 
+For specific module be specific : module-NC-FS-Bbits
 	e.g. acq425-16-2000-16
 	e.g. acq425-16-1000-18
         e.g. acq427-03-2000-16
-For Module with non-default NCHAN, enter acq4xx-NC 
+For Module with non-default NCHAN, enter acq4xx-NC
   	e.g. acq435-16
-For Module with non-default NBITS, enter acq4xx-Bbits 
+For Module with non-default NBITS, enter acq4xx-Bbits
         e.g. acq465-B16 # nb: runtime variant, NOT build variant!
 
 FOR DRYRUN run DRYRUN=1 ./deploy_sysconfig xxxx and examine ./STAGING
@@ -146,7 +146,7 @@ get_sr() {
 
 	model_sr=$(echo $mz | awk -F- '{ print $3 }')
 	if [[ ! -z $model_sr && $model_sr -gt 1000 ]]; then
-		sr="${model_sr}k"    
+		sr="${model_sr}k"
 		echo >&2 "DEBUG: picking SR from model $mz value:$sr"
 	else
 
@@ -162,7 +162,7 @@ get_sr() {
 				sr=43500
 			fi;;
 		acq465*)
-		       	if [ "$mz" = "${mz%-B16}" ]; then	
+		       	if [ "$mz" = "${mz%-B16}" ]; then
 				sr=62500
 			else
 				sr=1000000
@@ -223,17 +223,17 @@ acq427-03*)
   esac;;
 acq424)
   trans_file="acq42X_transient.init"
-  [ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
+  [ $sitecount -ge 4 ] && sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
   [ $sitecount -ge 2 ] && set_long_buffers
   ;;
 acq425*)
 	B18=$(echo $mezz | awk -F- '{print $4}')
 	if [ "x$B18" = "x18" ]; then
 		trans_file="acq43X_transient.init"
-  		[ $sitecount -gt 2 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
+  		[ $sitecount -gt 2 ] && sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
 	else
 		trans_file="acq42X_transient.init"
-		[ $sitecount -ge 4 ] && cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
+		[ $sitecount -ge 4 ] && cp sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
 		[ $sitecount -ge 2 ] && set_long_buffers
 	fi;;
 acq430)
@@ -251,12 +251,12 @@ acq465*)
 	trans_file="acq43X_transient.init"
   else
   	trans_file="acq42X_transient.init"
-	cp acq400_sh_acq465B16 STAGING/mnt/local/sysconfig/acq400.sh
+	cat acq400_sh_acq465B16 >> STAGING/mnt/local/sysconfig/acq400.sh
   fi;;
 acq48*)
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user
-	cp acq400_sh_AXI_DMA_BUFFERS STAGING/mnt/local/sysconfig/acq400.sh
+	cp sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
 	if [[ $host =~ "acq1001" ]]; then
 		cp acq1001_acq480_bos.sh STAGING/mnt/local/sysconfig/bos.sh
 		cp acq1001_acq480_acq420_custom STAGING/mnt/local/acq420_custom

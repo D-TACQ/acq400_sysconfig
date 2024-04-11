@@ -1,8 +1,0 @@
-REBOOT_KNOB=y
-BLEN=4194304
-NBUF=128
-#ACQ480_CUSTOM_BUF=y
-# scaled rate status for CONTINUOUS OPI
-STREAM_OPTS=--fill-scale
-#STREAM_OPTS=--null-copy
-

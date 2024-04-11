@@ -223,17 +223,17 @@ acq427-03*)
   esac;;
 acq424)
   trans_file="acq42X_transient.init"
-  [ $sitecount -ge 4 ] && sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
+  [ $sitecount -ge 4 ] && sed -i -e 's/#NBUF/NBUF/' -e 's/#BLEN/BLEN/' -e 's/#STREAM_OPTS/STREAM_OPTS/' STAGING/mnt/local/sysconfig/acq400.sh
   [ $sitecount -ge 2 ] && set_long_buffers
   ;;
 acq425*)
 	B18=$(echo $mezz | awk -F- '{print $4}')
 	if [ "x$B18" = "x18" ]; then
 		trans_file="acq43X_transient.init"
-  		[ $sitecount -gt 2 ] && sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
+  		[ $sitecount -gt 2 ] && sed -i -e 's/#NBUF/NBUF/' -e 's/#BLEN/BLEN/' -e 's/#STREAM_OPTS/STREAM_OPTS/' STAGING/mnt/local/sysconfig/acq400.sh
 	else
 		trans_file="acq42X_transient.init"
-		[ $sitecount -ge 4 ] && cp sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
+		[ $sitecount -ge 4 ] && cp sed -i -e 's/#NBUF/NBUF/' -e 's/#BLEN/BLEN/' -e 's/#STREAM_OPTS/STREAM_OPTS/' STAGING/mnt/local/sysconfig/acq400.sh
 		[ $sitecount -ge 2 ] && set_long_buffers
 	fi;;
 acq430)
@@ -256,7 +256,7 @@ acq465*)
 acq48*)
 	trans_file="acq480_transient.init"
        	#cp acq480_rc.user STAGING/mnt/local/rc.user
-	cp sed -i -e s/#NBUF/NBUF/ -e s/#BLEN/BLEN/ -e s/#STREAM_OPTS/STREAM_OPTS/ STAGING/mnt/local/sysconfig/acq400.sh
+	cp sed -i -e 's/#NBUF/NBUF/' -e 's/#BLEN/BLEN/' -e 's/#STREAM_OPTS/STREAM_OPTS/' STAGING/mnt/local/sysconfig/acq400.sh
 	if [[ $host =~ "acq1001" ]]; then
 		cp acq1001_acq480_bos.sh STAGING/mnt/local/sysconfig/bos.sh
 		cp acq1001_acq480_acq420_custom STAGING/mnt/local/acq420_custom
@@ -314,7 +314,7 @@ fi
 
 if [ $is_2x06 -eq 1 ]; then
 	echo "enable ETH1_E1000X=y; default on 2106"
-	sed -i s/#ETH1_E1000X/ETH1_E1000X/ STAGING/mnt/local/sysconfig/acq400.sh
+	sed -i 's/#ETH1_E1000X/ETH1_E1000X/' STAGING/mnt/local/sysconfig/acq400.sh
 fi
 
 echo "DEBUG trans_file $trans_file MODNAME $MODNAME"

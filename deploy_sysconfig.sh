@@ -302,16 +302,6 @@ test)
   ;;
 esac
 
-echo PGMWASHERE $carr $sitecount
-if [ $is_2x06 -eq 1 ] && [ $sitecount -gt 3 ]; then
-	echo "carrier:$carr sitecount:$sitecount FANSPEED=100"
-	echo "FANSPEED=100" >> STAGING/mnt/local/sysconfig/acq400.sh
-elif [ "$carr" = "1001" ] && [ $sitecount -gt 1 ]; then
-	echo "carrier:$carr sitecount:$sitecount FANSPEED=100"
-	echo "FANSPEED=100" >> STAGING/mnt/local/sysconfig/acq400.sh
-fi
-
-
 if [ $is_2x06 -eq 1 ]; then
 	echo "enable ETH1_E1000X=y; default on 2106"
 	sed -i 's/#ETH1_E1000X/ETH1_E1000X/' STAGING/mnt/local/sysconfig/acq400.sh

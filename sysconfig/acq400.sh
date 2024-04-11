@@ -1,5 +1,7 @@
 # external reboot control 
 REBOOT_KNOB=y
+#
+FANSPEED=100
 # optional external rsyslog HOST
 #RSYSLOG_HOST=naboo
 # optional, expert tailor number of buffers

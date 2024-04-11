@@ -204,8 +204,6 @@ echo "DEBUG host $host mezz $mezz $sites MODNAME $MODNAME SITELIST:$SITELIST sit
 # set some defaults in STAGING. Maybe they get overwritten
 cp -r sysconfig STAGING/mnt/local
 
-cp acq400_sh_default STAGING/mnt/local/sysconfig/acq400.sh
-
 trans_file="none"
 
 case $mezz in

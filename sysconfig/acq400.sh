@@ -22,6 +22,8 @@ FANSPEED=100
 #ACQ400_JUDGEMENT="256 d1"
 # Rapid Scope, 1024 points, internal trigger to 10Hz
 #ACQ400_JUDGEMENT="1024 d1"
+# Rapid Scope, 4096 points, internal trigger to 2Hz
+#ACQ400_JUDGEMENT="4096 d1"
 # for normal streaming, leave all JUDGEMENT commented out
 
 

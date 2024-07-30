@@ -26,7 +26,31 @@ judgement() {
 	export RTM_BUFFER_MON=y
 	export RTM_BUFFER_MON_VERBOSE=1
 }
+
+judgement_nj() {
+# nj: "no judgment"
+# short trace length, rapid update 50Hz possible
+# continuous, not burst
+# $1:size, $2:dX (don't care) $3:BPB
+	export SIZE=${1:-128}
+# round to the nearest 10
+	export SIZE=$((${SIZE%[123456789]*}*10))
+	export acq400Judgement_STUB_ES=1
+	export acq400JudgementNJ=1
+	export IOC_PREINIT=./scripts/load.judgement
+}
+
+# execution starts here
+
+
+## normal judgement controlled from one place.
 source /mnt/local/sysconfig/acq400.sh
-[ ! -z "$ACQ400_JUDGEMENT" ] && judgement $ACQ400_JUDGEMENT
+if [ ! -z "$ACQ400_JUDGEMENT" ]; then
+	judgement $ACQ400_JUDGEMENT
+elif [ ! -z "$ACQ400_JUDGEMENT_NJ" ]; then
+# uncomment if packed24
+#export acq400JudgementNJ_P24=1
+	judgement_nj $ACQ400_JUDGEMENT_NJ
+fi
 
 

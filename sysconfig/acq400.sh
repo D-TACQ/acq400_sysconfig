@@ -16,6 +16,7 @@ FANSPEED=100
 # ETH1000LX - connect to SFPD (MGT482 systems only)
 #ETH1_E1000X=y
 
+# ACQ400_JUDGEMENT: Burst mode rapid update, with mask and stats
 # Rapid Scope, 256 points, external trigger to 50Hz
 #ACQ400_JUDGEMENT="256 d0"
 # Rapid Scope, 256 points, internal trigger to 50Hz
@@ -24,6 +25,10 @@ FANSPEED=100
 #ACQ400_JUDGEMENT="1024 d1"
 # Rapid Scope, 4096 points, internal trigger to 2Hz
 #ACQ400_JUDGEMENT="4096 d1"
-# for normal streaming, leave all JUDGEMENT commented out
+# for normal streaming, leave all ACQ400_JUDGEMENT above commented out
+
+# for rapid update with normal streaming, not burst
+# Rapid update, no trigger, No Judgment:
+#ACQ400_JUDGEMENT_NJ="1024"
 
 

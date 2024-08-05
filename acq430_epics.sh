@@ -22,7 +22,7 @@ judgement() {
 # $1:size, $2:dX (don't care) $3:BPB
 	export SIZE=${1:-128}
 # round to the nearest 10
-	export SIZE=$((${SIZE%[123456789]*}*10))
+	export SIZE=$((${SIZE%[0123456789]*}*10))
 	export IOC_PREINIT=./scripts/load.judgement
 	export BURSTS_PER_BUFFER=${3:-1}
 	export RTM_BUFFER_MON=y
@@ -36,7 +36,7 @@ judgement_nj() {
 # $1:size, $2:dX (don't care) $3:BPB
 	export SIZE=${1:-128}
 # round to the nearest 10
-	export SIZE=$((${SIZE%[123456789]*}*10))
+	export SIZE=$((${SIZE%[0123456789]*}*10))
 	export acq400Judgement_STUB_ES=1
 	export acq400JudgementNJ=1
 	export IOC_PREINIT=./scripts/load.judgement

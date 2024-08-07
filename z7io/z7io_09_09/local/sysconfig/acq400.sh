@@ -10,7 +10,7 @@ NBUF=128
 #STREAM_OPTS=--null-copy
 
 # Rapid Scope, 256 points, external trigger to 50Hz
-ACQ400_JUDGEMENT="256 d0"
+#ACQ400_JUDGEMENT="256 d0"
 # Rapid Scope, 256 points, internal trigger to 50Hz
 #ACQ400_JUDGEMENT="256 d1"
 # Rapid Scope, 1024 points, internal trigger to 10Hz

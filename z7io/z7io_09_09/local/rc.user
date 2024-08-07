@@ -1,0 +1,36 @@
+#!/bin/sh
+
+echo /mnt/local/rc.user  01
+
+# judgement is controlled centrally from /mnt/local/sysconfig/acq400.sh
+
+judgement() {
+# short trace length, rapid update 50Hz possible
+set.site 1 RTM_TRANSLEN ${1:-128}
+
+if [ "${2:-d0}" = "d0" ]; then
+	dx=0
+else
+	dx=1
+fi
+# sorry, it's just more reliable to set in one go..
+#set.site 1 RGM RTM
+#set.site 1 RGM:DX ${2:-d0}
+#set.site 1 RGM:SENSE rising
+set.site 1 rgm=3,$dx,1
+set.site 1 trg=1,$dx,1
+}
+source /mnt/local/sysconfig/acq400.sh
+[ ! -z "$ACQ400_JUDGEMENT" ] && judgement $ACQ400_JUDGEMENT
+
+
+# route TRG.d0 from Front Panel or Back Plane
+#set.site 0 SIG:SRC:TRG:0 BP
+set.site 0 SIG:SRC:TRG:0 FP
+
+caput $(hostname):1:INTCLK_HZ 200000
+
+
+echo /mnt/local/rc.user  99
+
+

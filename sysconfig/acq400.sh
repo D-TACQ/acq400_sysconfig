@@ -2,6 +2,13 @@
 REBOOT_KNOB=y
 #
 FANSPEED=100
+
+# SSL: hostname.crt, hostname.key should reside in /mnt/local/sysconfig/ssl
+# enable SSL (https://) with embedded certificate alongside http://
+#SSL_MODE=ON
+# enable SSL ONLY. Best to test with "ON" first
+#SSL_MODE=FORCE
+
 # optional external rsyslog HOST
 #RSYSLOG_HOST=naboo
 # optional, expert tailor number of buffers

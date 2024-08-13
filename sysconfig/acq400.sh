@@ -8,6 +8,8 @@ FANSPEED=100
 #SSL_MODE=ON
 # enable SSL ONLY. Best to test with "ON" first
 #SSL_MODE=FORCE
+# set location of CA. Default shown below:
+#SSL_CA_POPUP_LINK=https://www.d-tacq.com/acq400_ssl.shtml
 
 # optional external rsyslog HOST
 #RSYSLOG_HOST=naboo

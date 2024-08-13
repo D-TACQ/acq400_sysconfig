@@ -49,6 +49,9 @@ echo STAGING is a place to build a local copy of the remote image
 
 echo SIGNATURE $signature/local exists
 cp -r $signature/local/* STAGING/mnt/local
+for file in common/local/sysconfig/*; do
+	cat $file >> STAGING/mnt/local/$(basename $file)
+done
 
 mkdir -p ARCHIVE
 uut=$host
@@ -64,7 +67,14 @@ for st in $staging; do
 done
 
 
-[ $DRYRUN -eq 0 ] && scp -r $staging/mnt/local/* root@$host:/mnt/local
+if [ $DRYRUN -eq 0 ]; then
+	scp -r $staging/mnt/local/* root@$host:/mnt/local
+        echo 'NEW!: install ssl certificates on'$host
+        (cd acq400_ssl; ./update_uut.sh $host)
+fi
+
+
+
 
 
 

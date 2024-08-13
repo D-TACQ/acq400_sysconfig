@@ -439,8 +439,14 @@ if [ $debug == 0 ]; then
 		exit 1
 	fi
 	cat ARCHIVE/$host.tar | ssh root@$host 'tar xvf - -C /'
-	[ "x$host2" != "x" ] && (cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
+	echo 'NEW!: install ssl certificates on'$host
+	(cd acq400_ssl; ./update_uut.sh $host)
 
+	if [ "x$host2" != "x" ]; then
+		(cat ARCHIVE/$host2.tar | ssh root@$host2 'tar xvf - -C /')
+		echo 'NEW!: install ssl certificates on'$host2
+		(cd acq400_ssl; ./update_uut.sh $host2)
+	fi
 else
 	echo -e "\e[91mdebug mode no deploy. Look in ./STAGING for details\e[0m"
 fi

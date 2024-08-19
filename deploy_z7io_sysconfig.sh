@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [[ $# -lt 2 ]]; then
 	cat - <<EOF
 		./deploy_z7io_sysconfig.sh z7io_123 M1 M2 [M3]
@@ -42,15 +41,18 @@ if [ ! -z "$(git status --porcelain)" ]; then
 	DRYRUN=1
 fi
 
-echo "CLEANUP rm STAGING"
+echo "CLEANUP rm -Rf STAGING STAGING2"
 rm -Rf STAGING STAGING2
 mkdir -p STAGING/mnt/local/cal
 echo STAGING is a place to build a local copy of the remote image
 
 echo SIGNATURE $signature/local exists
 cp -r $signature/local/* STAGING/mnt/local
-for file in common/local/sysconfig/*; do
-	cat $file >> STAGING/mnt/local/$(basename $file)
+for file in z7io/common/local/sysconfig/*; do
+	if [ -e $file ]; then
+		echo append $file to STAGING/mnt/local/sysconfig/$(basename $file)
+		cat $file >> STAGING/mnt/local/sysconfig/$(basename $file)
+	fi
 done
 
 mkdir -p ARCHIVE

@@ -10,6 +10,10 @@ FANSPEED=100
 #SSL_MODE=FORCE
 # set location of CA. Default shown below:
 #SSL_CA_POPUP_LINK=https://www.d-tacq.com/acq400_ssl.shtml
+# password protection for web site. i
+# password is held /mnt/local/sysconfig/auth
+#SSL_MODE=FORCE
+#WEB_AUTH=ON
 
 # optional external rsyslog HOST
 #RSYSLOG_HOST=naboo

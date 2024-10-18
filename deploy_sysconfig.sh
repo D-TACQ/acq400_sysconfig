@@ -72,7 +72,8 @@ if [ $ACQ1014 == 1 ]; then
 fi
 
 if [[ x$2 == xWR* ]]; then
-	if [[ $custom_sr -ne 0 ]]; then
+	mezz=$3
+	if [[ $custom_sr -ne 0 ]] && [[ x$mezz = xacq48* ]]; then
 		echo -e "\e[91mERROR! When setting custom SR with WR, use WR=XXM notation, e.g. WR=10M\e[0m"
 		exit 0
 	fi
@@ -82,13 +83,12 @@ if [[ x$2 == xWR* ]]; then
 	else
 		WR=40M
 	fi
-	echo White Rabbit System.. clocks at 40MHz for 25nsec tick. Actual clock $WR
-	mezz=$3
+	echo -e "\e[33m White Rabbit System.. clocks at 40MHz for 25nsec tick. Actual clock $WR\e[0m"
 	shift
 	if [[ x$mezz = xtest ]]; then
 		echo "TEST module selected"
 	elif [[ x$mezz != xacq48* ]]; then
-		echo WARNING: WR clock rate valid acq48x only, check wr.sh TICKNS
+		echo -e "\e[33m WARNING: WR clock rate valid acq48x only, check wr.sh TICKNS\e[0m"
 	fi
 else
 	if [ $debug == 0 ]; then

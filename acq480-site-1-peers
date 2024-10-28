@@ -1,5 +1,5 @@
 PEERS=%SITELIST%
-KNOBS=clkdiv,trg,event0,rgm,rtm_translen,es_enable,dclock_reset
+KNOBS=trg,event0,rgm,rtm_translen,es_enable,dclock_reset
 
 
 

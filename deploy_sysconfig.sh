@@ -409,7 +409,7 @@ acq43*)
 	enable_4210_stream=1;;
 acq423)
 	[ $sitecount -le 3 ] && enable_4210_stream=1;;
-acq42*)
+acq42[457])
 	[ $sitecount -eq 1 ] && enable_4210_stream=1;;
 acq465)
 	[ "$mz" = "${mz%-B16}" ] && enable_4210_stream=1;;

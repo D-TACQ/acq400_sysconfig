@@ -123,6 +123,7 @@ get_nchan() {
 		ao424) nc=32;;
 		acq423) nc=32;;
 		acq425) nc=16;;
+                acq426) nc=32;;
 		acq427|acq427-03*) nc=8;;
 		acq430)	nc=8;;
 		acq435) nc=32;;
@@ -151,7 +152,7 @@ get_sr() {
 	else
 
 		case $mz in
-		acq420|acq424|acq425*|acq427*)
+		acq420|acq424|acq425*|acq426*|acq427*)
 			;;
 		acq423) sr=200000;;
 		ao424) sr=500000;;
@@ -236,6 +237,10 @@ acq425*)
 		[ $sitecount -ge 4 ] && cp sed -i -e 's/#NBUF/NBUF/' -e 's/#BLEN/BLEN/' -e 's/#STREAM_OPTS/STREAM_OPTS/' STAGING/mnt/local/sysconfig/acq400.sh
 		[ $sitecount -ge 2 ] && set_long_buffers
 	fi;;
+acq426)
+  trans_file="acq42X_transient.init"
+  echo "#ACQ426_DATA32=1" >> STAGING/mnt/local/sysconfig/acq400.sh
+  ;;
 acq430)
   trans_file="acq43X_transient.init"
   cp acq430_epics.sh STAGING/mnt/local/sysconfig/epics.sh

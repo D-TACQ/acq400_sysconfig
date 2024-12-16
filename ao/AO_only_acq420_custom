@@ -1,2 +1,3 @@
-DRVR_CUSTOM="default_dma_direction=1 xo_use_distributor=1 xo_use_bigbuf=1 dio432_rowback=0 measure_ao_fifo_ok=0"
+# AO_only_acq420_custom
+DRVR_CUSTOM="default_dma_direction=1 xo_use_distributor=1 xo_use_bigbuf=1 dio432_rowback=0 measure_ao_fifo_ok=0 reserve_buffers=0"
 

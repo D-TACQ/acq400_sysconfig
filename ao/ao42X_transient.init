@@ -9,7 +9,7 @@ transient PRE=2000 POST=2000 OSAM=1 DEMUX=1 SOFT_TRIGGER=1
 # configure soft trigger on site 1 - typical default
 set.site 1 trg=1,1,1
 
-# set sites in aggregator set
+# set sites in distributor set
 play0 %SITELIST%
 
 # optionally set the fanspeed to 100% for warm AO products

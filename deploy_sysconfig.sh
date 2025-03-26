@@ -119,6 +119,7 @@ get_nchan() {
 		case $mz in
 		acq420) nc=4;;
 		ao420) nc=4;;
+		ao422) nc=4;;
 		acq424) nc=32;;
 		ao424) nc=32;;
 		acq423) nc=32;;
@@ -288,7 +289,7 @@ dio432)
   cp dio432_rc.user STAGING/mnt/local/rc.user
   cp DO_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
-ao420|ao424)
+ao420|ao422|ao424)
   trans_file="ao/ao42X_transient.init"
   cp ao/AO_only_acq420_custom STAGING/mnt/local/acq420_custom
   ;;
@@ -377,9 +378,16 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 		echo '# 35-gpg* '
 		echo '# 99-flare* '
 	else
-		sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
-			-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
-			template_rc.user
+		if [[ $mezz =~ "ao42" ]]; then
+			sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
+				-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
+				-e "/sync_role master/iset.site 1 AWG:DIST AWG # Set AWG so sync_role can detect what is in the distributor set" \
+				template_rc.user
+		else
+			sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
+				-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
+				template_rc.user
+		fi
 
 		if [ "x$WR" != "x" ]; then
 			#: # no op

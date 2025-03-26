@@ -382,6 +382,7 @@ elif [ ! -e STAGING/mnt/local/rc.user ]; then
 			sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \
 				-e "s/%ACQSUB%/$acq_sub/g" -e "s/%SETPOINT%/$setp/g" \
 				-e "/sync_role master/iset.site 1 AWG:DIST AWG # Set AWG so sync_role can detect what is in the distributor set" \
+				-e "/sync_role master/aset.site 1 AWG:DIST DC" \
 				template_rc.user
 		else
 			sed -e "s/%MEZZ%/$mezz/g" -e "s/%STR_SR%/$samp_rate/g" -e "s/%CARRIER%/$carr/g" \

@@ -53,4 +53,5 @@ elif [ ! -z "$ACQ400_JUDGEMENT_NJ" ]; then
 	judgement_nj $ACQ400_JUDGEMENT_NJ
 fi
 
-
+# Disable calibration monitoring sequences in acq400ioc
+# DISABLE_CALMON=1
